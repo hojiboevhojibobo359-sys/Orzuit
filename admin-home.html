@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>T.Digital Admin - Startseite</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body data-admin-page="home">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <a class="admin-brand" href="admin.html">
+          <span data-site-name>T.Digital</span>
+          <small>Adminbereich</small>
+        </a>
+        <nav class="admin-menu">
+          <a data-admin-nav href="admin.html">Dashboard</a>
+          <a data-admin-nav href="admin-home.html">Startseite</a>
+          <a data-admin-nav href="admin-services.html">Leistungen</a>
+          <a data-admin-nav href="admin-about.html">Uber uns</a>
+          <a data-admin-nav href="admin-contacts.html">Kontakt</a>
+          <a data-admin-nav href="admin-projects.html">Projekte</a>
+        </nav>
+        <div class="sidebar-footer">
+          <a class="to-site" href="index.html">Zur Website</a>
+          <button class="logout-btn" type="button" data-admin-logout>Abmelden</button>
+        </div>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-header">
+          <h1>Startseite bearbeiten</h1>
+          <p>Bearbeiten Sie den ersten Bereich und den Markennamen.</p>
+        </header>
+
+        <section class="admin-card">
+          <form id="homeForm" class="admin-form">
+            <label>Website-Name <input id="siteName" type="text" /></label>
+            <label>Hauptuberschrift <input id="homeTitle" type="text" /></label>
+            <label>Unteruberschrift <textarea id="homeSubtitle"></textarea></label>
+            <label>Beschreibung <textarea id="homeIntro"></textarea></label>
+            <label>Button-Text <input id="homeCtaText" type="text" /></label>
+            <label>Button-Link <input id="homeCtaLink" type="text" /></label>
+            <div class="row-actions">
+              <button class="button" type="submit">Speichern</button>
+              <span id="status" class="status" hidden></span>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script src="content.js"></script>
+    <script src="admin-auth.js"></script>
+    <script src="admin-sections.js"></script>
+  </body>
+</html>

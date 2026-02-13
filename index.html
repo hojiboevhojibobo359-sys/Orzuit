@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>T.Digital - Startseite</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-row">
+        <a class="brand" href="index.html" data-site-name>T.Digital</a>
+        <nav class="nav">
+          <a data-nav href="index.html">Startseite</a>
+          <a data-nav href="services.html">Leistungen</a>
+          <a data-nav href="about.html">Uber uns</a>
+          <a data-nav href="contacts.html">Kontakt</a>
+          <a data-nav href="projects.html">Projekte</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1 id="home-title"></h1>
+        <p id="home-subtitle"></p>
+        <p id="home-intro"></p>
+        <a id="home-cta" class="button" href="services.html">Leistungen ansehen</a>
+      </section>
+
+      <section id="featured-project-section" class="featured-project" hidden>
+        <h2 class="section-title">Hauptprojekt</h2>
+        <article id="featured-project-card" class="card"></article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">&copy; <span data-site-name>T.Digital</span>. Alle Rechte vorbehalten.</div>
+    </footer>
+
+    <script src="content.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

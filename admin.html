@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>T.Digital Admin - Dashboard</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body data-admin-page="dashboard">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <a class="admin-brand" href="admin.html">
+          <span data-site-name>T.Digital</span>
+          <small>Adminbereich</small>
+        </a>
+        <nav class="admin-menu">
+          <a data-admin-nav href="admin.html">Dashboard</a>
+          <a data-admin-nav href="admin-home.html">Startseite</a>
+          <a data-admin-nav href="admin-services.html">Leistungen</a>
+          <a data-admin-nav href="admin-about.html">Uber uns</a>
+          <a data-admin-nav href="admin-contacts.html">Kontakt</a>
+          <a data-admin-nav href="admin-projects.html">Projekte</a>
+        </nav>
+        <div class="sidebar-footer">
+          <a class="to-site" href="index.html">Zur Website</a>
+          <button class="logout-btn" type="button" data-admin-logout>Abmelden</button>
+        </div>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-header">
+          <h1>Verwaltungspanel</h1>
+          <p>Wahlen Sie einen Bereich aus, um Inhalte zu bearbeiten.</p>
+        </header>
+
+        <section class="admin-card admin-grid">
+          <a class="quick-link" href="admin-home.html">
+            <strong>Startseite</strong>
+            <span>Website-Name, Uberschrift, Beschreibung und Button.</span>
+          </a>
+          <a class="quick-link" href="admin-services.html">
+            <strong>Leistungen</strong>
+            <span>Leistungen hinzufugen, bearbeiten und loschen.</span>
+          </a>
+          <a class="quick-link" href="admin-about.html">
+            <strong>Uber uns</strong>
+            <span>Unternehmensbeschreibung und Mission.</span>
+          </a>
+          <a class="quick-link" href="admin-contacts.html">
+            <strong>Kontakt</strong>
+            <span>E-Mail, Telefon, Adresse, Telegram und Arbeitszeiten.</span>
+          </a>
+          <a class="quick-link" href="admin-projects.html">
+            <strong>Projekte</strong>
+            <span>Projektliste und Links.</span>
+          </a>
+        </section>
+
+        <section class="admin-card">
+          <p class="muted">Falls Sie neu starten mochten, konnen Sie alle Daten zurucksetzen.</p>
+          <div class="row-actions">
+            <button id="resetDefault" class="button ghost" type="button">Auf Standard zurucksetzen</button>
+          </div>
+        </section>
+
+        <section class="admin-card">
+          <h2>Login und Passwort andern</h2>
+          <p class="muted">Hier konnen Sie die Zugangsdaten fur den Adminbereich aktualisieren.</p>
+          <form id="credentialsForm" class="admin-form">
+            <label>Neuer Login <input id="newAdminLogin" type="text" required /></label>
+            <label>Neues Passwort <input id="newAdminPassword" type="password" required /></label>
+            <label>Passwort wiederholen <input id="confirmAdminPassword" type="password" required /></label>
+            <div class="row-actions">
+              <button class="button" type="submit">Zugangsdaten speichern</button>
+              <span id="credentialsStatus" class="status" hidden></span>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script src="content.js"></script>
+    <script src="admin-auth.js"></script>
+    <script src="admin-sections.js"></script>
+  </body>
+</html>

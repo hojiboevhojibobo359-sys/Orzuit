@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>T.Digital Admin - Leistungen</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body data-admin-page="services">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <a class="admin-brand" href="admin.html">
+          <span data-site-name>T.Digital</span>
+          <small>Adminbereich</small>
+        </a>
+        <nav class="admin-menu">
+          <a data-admin-nav href="admin.html">Dashboard</a>
+          <a data-admin-nav href="admin-home.html">Startseite</a>
+          <a data-admin-nav href="admin-services.html">Leistungen</a>
+          <a data-admin-nav href="admin-about.html">Uber uns</a>
+          <a data-admin-nav href="admin-contacts.html">Kontakt</a>
+          <a data-admin-nav href="admin-projects.html">Projekte</a>
+        </nav>
+        <div class="sidebar-footer">
+          <a class="to-site" href="index.html">Zur Website</a>
+          <button class="logout-btn" type="button" data-admin-logout>Abmelden</button>
+        </div>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-header">
+          <h1>Leistungen bearbeiten</h1>
+          <p>Leistungen des Unternehmens hinzufugen und bearbeiten.</p>
+        </header>
+
+        <section class="admin-card">
+          <form id="servicesForm" class="admin-form">
+            <div id="servicesRows" class="list"></div>
+            <div class="row-actions">
+              <button id="addService" class="button secondary" type="button">Leistung hinzufugen</button>
+              <button class="button" type="submit">Speichern</button>
+              <span id="status" class="status" hidden></span>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script src="content.js"></script>
+    <script src="admin-auth.js"></script>
+    <script src="admin-sections.js"></script>
+  </body>
+</html>
