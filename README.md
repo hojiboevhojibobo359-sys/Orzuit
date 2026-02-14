@@ -17,6 +17,7 @@ Set these variables in Vercel project settings:
 - `JWT_SECRET` - strong random secret
 - `ADMIN_LOGIN` - initial admin username
 - `ADMIN_PASSWORD` - initial admin password
+- `ADMIN_BOOTSTRAP_SECRET` - optional one-time secret to reset admin credentials if you lose access
 
 You can use `.env.example` as reference.
 

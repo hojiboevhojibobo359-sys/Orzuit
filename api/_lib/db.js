@@ -92,6 +92,12 @@ async function getAdminById(adminId) {
   return result.rows[0] || null;
 }
 
+async function getPrimaryAdmin() {
+  await initDatabase();
+  const result = await query("SELECT * FROM admins ORDER BY id ASC LIMIT 1;");
+  return result.rows[0] || null;
+}
+
 async function updateAdminCredentials(adminId, nextUsername, nextPasswordHash) {
   await initDatabase();
   const result = await query(
@@ -112,5 +118,6 @@ module.exports = {
   saveContent,
   getAdminByUsername,
   getAdminById,
+  getPrimaryAdmin,
   updateAdminCredentials
 };
