@@ -74,7 +74,7 @@ async function getAdminUsername() {
 
 async function updateAdminCredentials(currentPassword, nextUsername, nextPassword) {
   const token = getToken();
-  if (!token) throw new Error("Nicht autorisiert.");
+  if (!token) throw new Error("Not authorized.");
 
   const response = await requestAuth("/api/admin/credentials", {
     method: "PUT",
@@ -87,7 +87,7 @@ async function updateAdminCredentials(currentPassword, nextUsername, nextPasswor
   });
 
   if (!response.ok) {
-    let message = "Zugangsdaten konnten nicht aktualisiert werden.";
+    let message = "Failed to update credentials.";
     try {
       const errorPayload = await response.json();
       if (errorPayload && errorPayload.error) {
