@@ -1,4 +1,4 @@
-# T.Digital
+# OrzuIT
 
 Professional multi-page website with admin panel, backend API, and PostgreSQL database.
 

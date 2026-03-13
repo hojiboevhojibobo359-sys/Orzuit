@@ -1,10 +1,10 @@
 const defaultContent = {
-  siteName: "T.Digital",
+  siteName: "OrzuIT",
   home: {
-    title: "Wir entwickeln Websites und Web-Apps fur kleine Unternehmen",
-    subtitle: "Ein junges IT-Unternehmen mit Fokus auf Qualitat, Tempo und klare Ergebnisse",
+    title: "Wir entwickeln Websites und Web-Apps für kleine Unternehmen",
+    subtitle: "Ein IT-Unternehmen mit Fokus auf Qualität, Tempo und klare Ergebnisse",
     intro:
-      "Wir helfen kleinen Unternehmen, moderne digitale Losungen zu starten. Obwohl wir ein junges Team sind, liefern wir hohe Qualitat, durchdachtes UX und zuverlassige Begleitung in jeder Projektphase.",
+      "Wir helfen kleinen Unternehmen, moderne digitale Lösungen zu starten. Wir liefern hohe Qualität, durchdachtes UX und zuverlässige Begleitung in jeder Projektphase.",
     ctaText: "Leistungen ansehen",
     ctaLink: "services.html"
   },
@@ -12,7 +12,7 @@ const defaultContent = {
     {
       title: "Website-Entwicklung",
       description:
-        "Wir erstellen moderne Unternehmenswebsites und Landingpages mit responsivem Design und klarer Struktur fur Ihre Kunden."
+        "Wir erstellen moderne Unternehmenswebsites und Landingpages mit responsivem Design und klarer Struktur für Ihre Kunden."
     },
     {
       title: "Web-App-Entwicklung",
@@ -22,26 +22,26 @@ const defaultContent = {
   ],
   about: {
     text:
-      "T.Digital ist ein Team, das digitale Losungen fur kleine Unternehmen entwickelt. Wir verbinden Design, Entwicklung und praxisnahe Umsetzung, damit Ihre Prozesse schneller und effizienter laufen.",
+      "OrzuIT ist ein Team, das digitale Lösungen für kleine Unternehmen entwickelt. Wir verbinden Design, Entwicklung und praxisnahe Umsetzung, damit Ihre Prozesse schneller und effizienter laufen.",
     mission:
-      "Unser Ziel ist es, die Leistungsfahigkeit kleiner Unternehmen zu verbessern und die technologische Entwicklung im Unternehmertum aktiv zu unterstutzen.",
+      "Unser Ziel ist es, die Leistungsfähigkeit kleiner Unternehmen zu verbessern und die technologische Entwicklung im Unternehmertum aktiv zu unterstützen.",
     founder: {
-      name: "Grundername",
-      role: "Grunder & Leitung",
+      name: "Gründername",
+      role: "Gründer & Leitung",
       shortBio:
-        "Kurzbeschreibung des Grunders und seiner Rolle bei T.Digital. Dieser Text erscheint im Uber-uns-Bereich.",
+        "Kurzbeschreibung des Gründers und seiner Rolle bei OrzuIT. Dieser Text erscheint im Über-uns-Bereich.",
       fullBio:
-        "Ausfuhrlicher Text uber den Grunder: Hintergrund, Erfahrung und Vision fur T.Digital und die Unterstutzung kleiner Unternehmen.",
+        "Ausführlicher Text über den Gründer: Hintergrund, Erfahrung und Vision für OrzuIT und die Unterstützung kleiner Unternehmen.",
       photoUrl: "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg",
       linkedin: "",
       email: ""
     }
   },
   contacts: {
-    email: "hello@t-digital.de",
+    email: "hello@orzuit.de",
     phone: "+49 30 1234 5678",
     address: "Berlin, Deutschland",
-    telegram: "@tdigital_team",
+    telegram: "@orzuit_team",
     workingHours: "Mo-Fr, 09:00-18:00"
   },
   projects: [

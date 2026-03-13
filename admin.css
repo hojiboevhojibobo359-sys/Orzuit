@@ -1,14 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
 :root {
-  --bg: #f2f4fa;
-  --panel: #111a31;
-  --panel-hover: #1d2a4c;
+  --bg: #f8fafc;
+  --panel: #0f172a;
+  --panel-hover: #1e293b;
   --card: #ffffff;
-  --line: #dfe4f1;
-  --text: #1a2542;
-  --muted: #7181a7;
-  --accent: #395dff;
-  --accent-soft: #eaf0ff;
-  --danger: #d13a57;
+  --line: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #0ea5e9;
+  --accent-soft: #e0f2fe;
+  --danger: #dc2626;
 }
 
 * {
@@ -17,7 +19,7 @@
 
 body {
   margin: 0;
-  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
