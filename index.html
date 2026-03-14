@@ -4,13 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OrzuIT - Startseite</title>
+    <link rel="preconnect" href="https://i.imgur.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container header-row">
         <a class="brand" href="index.html">
-          <img class="brand-logo" src="https://i.imgur.com/qiFjcQR.jpeg" alt="" />
+          <img class="brand-logo" src="https://i.imgur.com/qiFjcQR.jpeg" alt="" width="42" height="42" fetchpriority="high" decoding="async" />
           <span data-site-name>OrzuIT</span>
         </a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
@@ -28,10 +31,10 @@
 
     <main class="container">
       <section class="hero">
-        <h1 id="home-title"></h1>
-        <p id="home-subtitle"></p>
-        <p id="home-intro"></p>
-        <a id="home-cta" class="button" href="services.html">Leistungen ansehen</a>
+        <h1 id="home-title" class="hero-title">Wir entwickeln Websites und Web-Apps für kleine Unternehmen</h1>
+        <p id="home-subtitle" class="hero-subtitle">Ein IT-Unternehmen mit Fokus auf Qualität, Tempo und klare Ergebnisse</p>
+        <p id="home-intro" class="hero-intro">Wir helfen kleinen Unternehmen, moderne digitale Lösungen zu starten. Wir liefern hohe Qualität, durchdachtes UX und zuverlässige Begleitung in jeder Projektphase.</p>
+        <a id="home-cta" class="button hero-cta" href="services.html">Leistungen ansehen</a>
       </section>
 
       <section id="featured-project-section" class="featured-project" hidden>
@@ -44,7 +47,7 @@
       <div class="container">&copy; <span data-site-name>OrzuIT</span>. Alle Rechte vorbehalten.</div>
     </footer>
 
-    <script src="content.js"></script>
-    <script src="main.js"></script>
+    <script src="content.js" defer></script>
+    <script src="main.js" defer></script>
   </body>
 </html>

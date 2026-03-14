@@ -26,6 +26,35 @@ function setupMenuToggle() {
   });
 }
 
+var revealObserver = null;
+
+function setupRevealAnimations() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reducedMotion) {
+    document.querySelectorAll(".reveal-in").forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      });
+    },
+    { threshold: 0.08, rootMargin: "40px 0px" }
+  );
+  observeRevealElements();
+}
+
+function observeRevealElements() {
+  if (!revealObserver) return;
+  const selector = "main .section-title, main .card, main .contact-item, main .grid .card, .featured-project .card";
+  document.querySelectorAll(selector).forEach((el) => {
+    if (el.closest(".hero")) return;
+    if (!el.classList.contains("reveal-in")) el.classList.add("reveal-in");
+    revealObserver.observe(el);
+  });
+}
+
 function renderHome(content) {
   const title = document.getElementById("home-title");
   const subtitle = document.getElementById("home-subtitle");
@@ -294,16 +323,23 @@ function applyCommon(content) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  setupMenuToggle();
+  setActiveNav();
+  setupRevealAnimations();
+
   const { getContent } = window.TDigitalContent;
   const content = await getContent();
 
   applyCommon(content);
-  setupMenuToggle();
-  setActiveNav();
   renderHome(content);
   renderServices(content);
   renderAbout(content);
   renderContacts(content);
   renderProjects(content);
   renderFeaturedProject(content);
+
+  requestAnimationFrame(() => {
+    document.body.classList.add("content-ready");
+    observeRevealElements();
+  });
 });
