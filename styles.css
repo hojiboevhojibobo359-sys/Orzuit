@@ -591,6 +591,60 @@ main {
   min-width: 100px;
 }
 
+/* Service detail page */
+.service-detail {
+  padding: 32px 28px;
+  max-width: 720px;
+}
+
+.service-detail-back {
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.service-detail-back:hover {
+  color: var(--accent-dim);
+  text-shadow: 0 0 12px rgba(0, 245, 255, 0.4);
+}
+
+.service-detail-title {
+  margin: 0 0 16px;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.service-detail-lead {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.service-detail-body {
+  margin-bottom: 28px;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.service-detail-body br {
+  display: block;
+  content: "";
+  margin-top: 0.5em;
+}
+
+.service-detail-notfound {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
 .card h3 {
   margin: 0 0 10px;
   font-size: 1.25rem;

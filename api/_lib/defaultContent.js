@@ -12,12 +12,16 @@ const defaultContent = {
     {
       title: "Website-Entwicklung",
       description:
-        "Wir erstellen moderne Unternehmenswebsites und Landingpages mit responsivem Design und klarer Struktur für Ihre Kunden."
+        "Wir erstellen moderne Unternehmenswebsites und Landingpages mit responsivem Design und klarer Struktur für Ihre Kunden.",
+      details:
+        "Auf der Detailseite können Sie alle Informationen zu dieser Leistung beschreiben: Ablauf, Technologien, Preise oder Besonderheiten. Dieser Text erscheint nach Klick auf „Mehr erfahren“."
     },
     {
       title: "Web-App-Entwicklung",
       description:
-        "Wir planen und entwickeln Web-Anwendungen zur Automatisierung von Prozessen, Anfragen, Verwaltung und Kundenkommunikation."
+        "Wir planen und entwickeln Web-Anwendungen zur Automatisierung von Prozessen, Anfragen, Verwaltung und Kundenkommunikation.",
+      details:
+        "Hier die vollständige Beschreibung für die Detailseite: Nutzen, Einsatzbereiche, Technologien und nächste Schritte. Bearbeiten Sie diesen Inhalt im Admin unter Leistungen."
     }
   ],
   about: {

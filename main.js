@@ -78,6 +78,7 @@ function renderServices(content) {
   services.forEach((service) => {
     const title = (service.title || "").trim() || "Leistung";
     const desc = service.description || "";
+    const detailUrl = "service.html?title=" + encodeURIComponent(title);
     const orderUrl = "contacts.html?service=" + encodeURIComponent(title) + "#order-section";
     const item = document.createElement("article");
     item.className = "card service-card";
@@ -85,12 +86,40 @@ function renderServices(content) {
       <h3>${escapeHtml(title)}</h3>
       <p>${escapeHtml(desc)}</p>
       <div class="service-card-actions">
-        <a class="button secondary service-btn-detail" href="${orderUrl}">Mehr erfahren</a>
+        <a class="button secondary service-btn-detail" href="${detailUrl}">Mehr erfahren</a>
         <a class="button service-btn-order" href="${orderUrl}">Bestellen</a>
       </div>
     `;
     list.appendChild(item);
   });
+}
+
+function renderServiceDetailPage(content) {
+  const block = document.getElementById("service-detail");
+  if (!block) return;
+  const params = new URLSearchParams(location.search);
+  const titleParam = params.get("title");
+  const services = Array.isArray(content.services) ? content.services : [];
+  const service = titleParam ? services.find((s) => (s.title || "").trim() === titleParam.trim()) : null;
+  if (!service) {
+    block.innerHTML = `
+      <p class="service-detail-notfound">Leistung nicht gefunden.</p>
+      <a class="button" href="services.html">Alle Leistungen</a>
+    `;
+    document.title = "Leistung nicht gefunden - " + (content.siteName || "OrzuIT");
+    return;
+  }
+  const title = (service.title || "").trim() || "Leistung";
+  const description = service.description || "";
+  const details = service.details != null ? String(service.details) : "";
+  block.innerHTML = `
+    <a class="service-detail-back" href="services.html">← Leistungen</a>
+    <h1 class="service-detail-title">${escapeHtml(title)}</h1>
+    ${description ? `<p class="service-detail-lead">${escapeHtml(description)}</p>` : ""}
+    <div class="service-detail-body">${details ? escapeHtml(details).replace(/\n/g, "<br>") : "<p class=\"muted\">Keine weiteren Details.</p>"}</div>
+    <a class="button" href="contacts.html?service=${encodeURIComponent(title)}#order-section">Jetzt anfragen</a>
+  `;
+  document.title = title + " - " + (content.siteName || "OrzuIT");
 }
 
 function escapeHtml(s) {
@@ -462,6 +491,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   applyCommon(content);
   renderHome(content);
   renderServices(content);
+  renderServiceDetailPage(content);
   renderAbout(content);
   renderContacts(content);
   renderProjects(content);

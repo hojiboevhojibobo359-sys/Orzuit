@@ -7,6 +7,30 @@ function markActiveAdminNav() {
   });
 }
 
+function setupAdminMenuToggle() {
+  const toggle = document.querySelector(".admin-menu-toggle");
+  const nav = document.getElementById("admin-nav");
+  if (!toggle || !nav) return;
+  toggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    nav.setAttribute("aria-hidden", String(!isOpen));
+  });
+  const backdrop = nav.querySelector(".admin-nav-backdrop");
+  if (backdrop) backdrop.addEventListener("click", () => {
+    nav.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+    nav.setAttribute("aria-hidden", "true");
+  });
+  nav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      nav.setAttribute("aria-hidden", "true");
+    });
+  });
+}
+
 function setSiteNameLabel(content) {
   document.querySelectorAll("[data-site-name]").forEach((el) => {
     el.textContent = content.siteName;
@@ -167,8 +191,10 @@ function renderServiceRows(container, services) {
     const wrap = document.createElement("div");
     wrap.className = "item-card";
     const title = createInput("Leistungsname", service.title);
-    const description = createInput("Leistungsbeschreibung", service.description, "textarea");
-    wrap.append(title.label, description.label);
+    const description = createInput("Leistungsbeschreibung (Kurz)", service.description, "textarea");
+    const details = createInput("Vollständige Beschreibung / Detailseite („Mehr erfahren“)", service.details != null ? service.details : "", "textarea");
+    if (details.input) details.input.placeholder = "Dieser Text erscheint auf der eigenen Detailseite der Leistung.";
+    wrap.append(title.label, description.label, details.label);
 
     const actions = document.createElement("div");
     actions.className = "row-actions";
@@ -184,6 +210,7 @@ function renderServiceRows(container, services) {
     wrap.appendChild(actions);
     wrap._titleInput = title.input;
     wrap._descriptionInput = description.input;
+    wrap._detailsInput = details.input;
     container.appendChild(wrap);
   });
 }
@@ -198,7 +225,7 @@ function initServicesPage(state, saveContent) {
   renderServiceRows(rows, services);
 
   add.addEventListener("click", () => {
-    services.push({ title: "Neue Leistung", description: "Leistungsbeschreibung" });
+    services.push({ title: "Neue Leistung", description: "Leistungsbeschreibung", details: "" });
     renderServiceRows(rows, services);
   });
 
@@ -207,7 +234,8 @@ function initServicesPage(state, saveContent) {
     const nextServices = Array.from(rows.children)
       .map((row) => ({
         title: row._titleInput.value.trim(),
-        description: row._descriptionInput.value.trim()
+        description: row._descriptionInput.value.trim(),
+        details: (row._detailsInput && row._detailsInput.value) || ""
       }))
       .filter((item) => item.title);
 
@@ -372,6 +400,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const page = document.body.dataset.adminPage;
 
   markActiveAdminNav();
+  setupAdminMenuToggle();
   setSiteNameLabel(state);
   document.querySelectorAll("[data-admin-logout]").forEach((button) => {
     button.addEventListener("click", adminLogout);

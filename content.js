@@ -12,12 +12,14 @@ const defaultContent = {
     {
       title: "Website-Entwicklung",
       description:
-        "Wir erstellen moderne Unternehmenswebsites und Landingpages mit responsivem Design und klarer Struktur für Ihre Kunden."
+        "Wir erstellen moderne Unternehmenswebsites und Landingpages mit responsivem Design und klarer Struktur für Ihre Kunden.",
+      details: ""
     },
     {
       title: "Web-App-Entwicklung",
       description:
-        "Wir planen und entwickeln Web-Anwendungen zur Automatisierung von Prozessen, Anfragen, Verwaltung und Kundenkommunikation."
+        "Wir planen und entwickeln Web-Anwendungen zur Automatisierung von Prozessen, Anfragen, Verwaltung und Kundenkommunikation.",
+      details: ""
     }
   ],
   about: {
@@ -70,7 +72,9 @@ function normalizeContent(parsed) {
       }
     },
     contacts: { ...defaultContent.contacts, ...((parsed && parsed.contacts) || {}) },
-    services: Array.isArray(parsed && parsed.services) ? parsed.services : defaultContent.services,
+    services: Array.isArray(parsed && parsed.services)
+      ? parsed.services.map((s) => ({ ...s, details: s.details != null ? s.details : "" }))
+      : defaultContent.services,
     projects: Array.isArray(parsed && parsed.projects) ? parsed.projects : defaultContent.projects
   };
 }

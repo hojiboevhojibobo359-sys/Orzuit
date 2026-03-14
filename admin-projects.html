@@ -8,12 +8,24 @@
   </head>
   <body data-admin-page="projects">
     <div class="admin-shell">
-      <aside class="admin-sidebar">
-        <a class="admin-brand" href="admin.html">
-          <span data-site-name>OrzuIT</span>
-          <small>Adminbereich</small>
-        </a>
-        <nav class="admin-menu">
+      <header class="admin-header-bar">
+        <div class="admin-menu-wrap">
+          <button class="admin-menu-toggle" type="button" aria-expanded="false" aria-controls="admin-nav" aria-label="Menu">
+            <span class="admin-menu-toggle-bar"></span>
+            <span class="admin-menu-toggle-bar"></span>
+            <span class="admin-menu-toggle-bar"></span>
+          </button>
+        </div>
+        <a class="admin-brand" href="admin.html"><span data-site-name>OrzuIT</span> <small>Admin</small></a>
+        <div class="admin-header-actions">
+          <a class="to-site" href="index.html">Zur Website</a>
+          <button class="logout-btn" type="button" data-admin-logout>Abmelden</button>
+        </div>
+      </header>
+
+      <nav id="admin-nav" class="admin-nav-semicircle" aria-hidden="true">
+        <div class="admin-nav-backdrop"></div>
+        <div class="admin-nav-inner">
           <a data-admin-nav href="admin.html">Dashboard</a>
           <a data-admin-nav href="admin-home.html">Startseite</a>
           <a data-admin-nav href="admin-services.html">Leistungen</a>
@@ -21,12 +33,8 @@
           <a data-admin-nav href="admin-contacts.html">Kontakt</a>
           <a data-admin-nav href="admin-projects.html">Projekte</a>
           <a data-admin-nav href="admin-telegram.html">Telegram</a>
-        </nav>
-        <div class="sidebar-footer">
-          <a class="to-site" href="index.html">Zur Website</a>
-          <button class="logout-btn" type="button" data-admin-logout>Abmelden</button>
         </div>
-      </aside>
+      </nav>
 
       <main class="admin-main">
         <header class="admin-header">
