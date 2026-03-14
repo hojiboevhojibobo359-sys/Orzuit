@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OrzuIT Admin - Telegram</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body data-admin-page="telegram">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <a class="admin-brand" href="admin.html">
+          <span data-site-name>OrzuIT</span>
+          <small>Adminbereich</small>
+        </a>
+        <nav class="admin-menu">
+          <a data-admin-nav href="admin.html">Dashboard</a>
+          <a data-admin-nav href="admin-home.html">Startseite</a>
+          <a data-admin-nav href="admin-services.html">Leistungen</a>
+          <a data-admin-nav href="admin-about.html">Über uns</a>
+          <a data-admin-nav href="admin-contacts.html">Kontakt</a>
+          <a data-admin-nav href="admin-projects.html">Projekte</a>
+          <a data-admin-nav href="admin-telegram.html">Telegram</a>
+        </nav>
+        <div class="sidebar-footer">
+          <a class="to-site" href="index.html">Zur Website</a>
+          <button class="logout-btn" type="button" data-admin-logout>Abmelden</button>
+        </div>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-header">
+          <h1>Telegram-Integration</h1>
+          <p>Bot-Token und Chat-ID für Benachrichtigungen einrichten.</p>
+        </header>
+
+        <section class="admin-card">
+          <p class="muted">Konfigurieren Sie einen Telegram-Bot, um Nachrichten in einen Chat zu senden (z. B. bei Kontaktanfragen). Chat-ID und Token können hier oder über die Umgebungsvariablen <code>TELEGRAM_CHAT_ID</code> und <code>TELEGRAM_BOT_TOKEN</code> gesetzt werden.</p>
+          <form id="telegramForm" class="admin-form">
+            <label>
+              Chat-ID
+              <input id="telegramChatId" type="text" placeholder="-1001234567890" autocomplete="off" />
+              <span id="chatIdEnvNote" class="muted" style="font-size: 12px; display: none;">Aktuell aus Umgebungsvariable.</span>
+            </label>
+            <label>
+              Bot-Token
+              <input id="telegramBotToken" type="password" placeholder="123456:ABC-DEF..." autocomplete="off" />
+              <span id="tokenEnvNote" class="muted" style="font-size: 12px; display: none;">Aktuell aus Umgebungsvariable. In Admin nicht änderbar.</span>
+              <span id="tokenMasked" class="muted" style="font-size: 12px; display: none;"></span>
+            </label>
+            <div class="row-actions">
+              <button class="button" type="submit">Speichern</button>
+              <span id="telegramStatus" class="status" hidden></span>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-card">
+          <h2>Testnachricht senden</h2>
+          <p class="muted">Eine Nachricht an den konfigurierten Chat senden.</p>
+          <div class="row-actions">
+            <button id="telegramTestBtn" class="button secondary" type="button">Testnachricht senden</button>
+            <span id="telegramTestStatus" class="status" hidden></span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="content.js"></script>
+    <script src="admin-auth.js"></script>
+    <script src="admin-telegram.js"></script>
+  </body>
+</html>

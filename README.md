@@ -18,8 +18,15 @@ Set these variables in Vercel project settings:
 - `ADMIN_LOGIN` - initial admin username
 - `ADMIN_PASSWORD` - initial admin password
 - `ADMIN_BOOTSTRAP_SECRET` - optional one-time secret to reset admin credentials if you lose access
+- `TELEGRAM_BOT_TOKEN` (optional) - Telegram bot token for sending messages
+- `TELEGRAM_CHAT_ID` (optional) - Telegram chat ID where the bot sends messages
 
-You can use `.env.example` as reference.
+You can use `.env.example` as reference. Telegram can also be configured in **Admin → Telegram** (stored in DB); env variables take precedence.
+
+## Telegram integration
+
+- In Admin go to **Telegram**, enter **Chat-ID** and **Bot-Token**, then Save. Or set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in Vercel env.
+- Send messages via `POST /api/telegram/send` with JSON body `{ "message": "Your text" }` (e.g. from a contact form). Use `parse_mode: "HTML"` for simple formatting.
 
 ## Admin URLs
 

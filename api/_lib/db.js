@@ -56,6 +56,19 @@ async function initDatabase() {
     if (!contentRow.rows.length) {
       await query("INSERT INTO site_content (id, data) VALUES (1, $1::jsonb);", [JSON.stringify(defaultContent)]);
     }
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS telegram_settings (
+        id SMALLINT PRIMARY KEY CHECK (id = 1),
+        chat_id TEXT,
+        bot_token TEXT,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `);
+    const tgRow = await query("SELECT id FROM telegram_settings WHERE id = 1;");
+    if (!tgRow.rows.length) {
+      await query("INSERT INTO telegram_settings (id, chat_id, bot_token) VALUES (1, NULL, NULL);");
+    }
   })();
   return initPromise;
 }
@@ -112,6 +125,22 @@ async function updateAdminCredentials(adminId, nextUsername, nextPasswordHash) {
   return result.rows[0] || null;
 }
 
+async function getTelegramSettings() {
+  await initDatabase();
+  const result = await query("SELECT chat_id, bot_token FROM telegram_settings WHERE id = 1;");
+  const row = result.rows[0];
+  return row ? { chatId: row.chat_id || null, botToken: row.bot_token || null } : { chatId: null, botToken: null };
+}
+
+async function saveTelegramSettings(chatId, botToken) {
+  await initDatabase();
+  await query(
+    "UPDATE telegram_settings SET chat_id = $1, bot_token = $2, updated_at = NOW() WHERE id = 1;",
+    [chatId || null, botToken || null]
+  );
+  return getTelegramSettings();
+}
+
 module.exports = {
   initDatabase,
   getContent,
@@ -119,5 +148,7 @@ module.exports = {
   getAdminByUsername,
   getAdminById,
   getPrimaryAdmin,
-  updateAdminCredentials
+  updateAdminCredentials,
+  getTelegramSettings,
+  saveTelegramSettings
 };
