@@ -254,6 +254,36 @@ function initServicesPage(state, saveContent) {
   });
 }
 
+function renderProjectDetailRows(container, details) {
+  container.innerHTML = "";
+  const list = Array.isArray(details) ? details.map((d) => ({ label: d.label || "", value: d.value || "" })) : [];
+  list.forEach((row, rowIndex) => {
+    const rowWrap = document.createElement("div");
+    rowWrap.className = "detail-row";
+    const labelInput = createInput("Bezeichnung", row.label);
+    const valueInput = createInput("Wert", row.value);
+    const delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "button ghost";
+    delBtn.textContent = "Entfernen";
+    delBtn.addEventListener("click", () => {
+      list.splice(rowIndex, 1);
+      renderProjectDetailRows(container, list);
+    });
+    rowWrap.append(labelInput.label, valueInput.label, delBtn);
+    rowWrap._labelInput = labelInput.input;
+    rowWrap._valueInput = valueInput.input;
+    container.appendChild(rowWrap);
+  });
+}
+
+function getProjectDetailsFromRows(container) {
+  return Array.from(container.children).map((row) => ({
+    label: (row._labelInput && row._labelInput.value.trim()) || "",
+    value: (row._valueInput && row._valueInput.value.trim()) || ""
+  }));
+}
+
 function renderProjectRows(container, projects) {
   container.innerHTML = "";
   projects.forEach((project, index) => {
@@ -264,12 +294,32 @@ function renderProjectRows(container, projects) {
     const link = createInput("Link", project.link);
     wrap.append(name.label, description.label, link.label);
 
+    const detailsHeading = document.createElement("p");
+    detailsHeading.className = "muted";
+    detailsHeading.style.marginTop = "12px";
+    detailsHeading.textContent = "Detailfelder (z. B. Programmiersprache, Technologien, Arbeitsstunden, Anzahl Programmierer):";
+    wrap.appendChild(detailsHeading);
+    const detailsContainer = document.createElement("div");
+    detailsContainer.className = "project-details-list";
+    wrap.appendChild(detailsContainer);
+    renderProjectDetailRows(detailsContainer, project.details);
+    const addDetailBtn = document.createElement("button");
+    addDetailBtn.type = "button";
+    addDetailBtn.className = "button secondary";
+    addDetailBtn.textContent = "Feld hinzufugen";
+    addDetailBtn.addEventListener("click", () => {
+      const list = getProjectDetailsFromRows(detailsContainer);
+      list.push({ label: "", value: "" });
+      renderProjectDetailRows(detailsContainer, list);
+    });
+    wrap.appendChild(addDetailBtn);
+
     const actions = document.createElement("div");
     actions.className = "row-actions";
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "button ghost";
-    remove.textContent = "Loschen";
+    remove.textContent = "Projekt loschen";
     remove.addEventListener("click", () => {
       projects.splice(index, 1);
       renderProjectRows(container, projects);
@@ -279,6 +329,7 @@ function renderProjectRows(container, projects) {
     wrap._nameInput = name.input;
     wrap._descriptionInput = description.input;
     wrap._linkInput = link.input;
+    wrap._detailsContainer = detailsContainer;
     container.appendChild(wrap);
   });
 }
@@ -293,7 +344,7 @@ function initProjectsPage(state, saveContent) {
   renderProjectRows(rows, projects);
 
   add.addEventListener("click", () => {
-    projects.push({ name: "Neues Projekt", description: "Projektbeschreibung", link: "#" });
+    projects.push({ name: "Neues Projekt", description: "Projektbeschreibung", link: "#", details: [] });
     renderProjectRows(rows, projects);
   });
 
@@ -303,7 +354,8 @@ function initProjectsPage(state, saveContent) {
       .map((row) => ({
         name: row._nameInput.value.trim(),
         description: row._descriptionInput.value.trim(),
-        link: row._linkInput.value.trim()
+        link: row._linkInput.value.trim(),
+        details: row._detailsContainer ? getProjectDetailsFromRows(row._detailsContainer) : []
       }))
       .filter((item) => item.name);
 

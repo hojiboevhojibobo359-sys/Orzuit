@@ -271,18 +271,21 @@ body::after {
   overflow: visible;
 }
 
-/* Circular nav on all devices - centered on the round button */
+/* Site nav: vertical list under the menu button */
 .nav {
   position: absolute;
   right: 0;
-  top: 0;
-  width: 260px;
-  height: 260px;
-  margin: 0;
-  transform: translate(50%, -50%);
+  top: 100%;
+  margin-top: 8px;
+  width: 220px;
+  padding: 8px 0;
+  background: var(--bg-soft);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 30px rgba(0, 245, 255, 0.12);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.35s var(--ease);
+  transition: opacity 0.3s var(--ease);
 }
 
 .nav.is-open {
@@ -291,38 +294,24 @@ body::after {
 }
 
 .nav a {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: auto;
-  white-space: nowrap;
+  display: block;
   text-decoration: none;
   color: var(--muted);
   font-size: 0.9375rem;
   font-weight: 500;
-  padding: 10px 16px;
-  border-radius: 999px;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
-  transform: rotate(var(--angle, 0deg)) translateY(-100px) rotate(calc(-1 * var(--angle, 0deg)));
-  opacity: 0;
-  transition: opacity 0.25s var(--ease), box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s;
-  animation: menuCircleIn 0.4s var(--ease) both;
+  margin: 0 6px;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-
-.nav a:nth-child(1) { --angle: 0deg;   animation-delay: 0.05s; }
-.nav a:nth-child(2) { --angle: 72deg;  animation-delay: 0.1s; }
-.nav a:nth-child(3) { --angle: 144deg; animation-delay: 0.15s; }
-.nav a:nth-child(4) { --angle: 216deg; animation-delay: 0.2s; }
-.nav a:nth-child(5) { --angle: 288deg; animation-delay: 0.25s; }
-
-.nav.is-open a { opacity: 1; }
 
 .nav a.active,
 .nav a:hover {
   color: var(--accent);
   background: rgba(0, 245, 255, 0.08);
-  border-color: rgba(0, 245, 255, 0.25);
-  box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+  border-color: rgba(0, 245, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.1);
 }
 
 .nav a:focus-visible {
@@ -645,6 +634,42 @@ main {
   color: var(--muted);
 }
 
+.project-detail-body {
+  margin-bottom: 24px;
+}
+
+.project-detail-row {
+  display: flex;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+}
+
+.project-detail-row:last-child {
+  border-bottom: none;
+}
+
+.project-detail-label {
+  font-weight: 600;
+  color: var(--muted);
+  min-width: 140px;
+}
+
+.project-detail-value {
+  color: var(--text);
+}
+
+.project-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.project-card-actions .button {
+  margin-top: 0;
+}
+
 .card h3 {
   margin: 0 0 10px;
   font-size: 1.25rem;
@@ -841,10 +866,18 @@ main {
 .order-form select {
   cursor: pointer;
   appearance: none;
+  background-color: rgba(0, 0, 0, 0.35);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300f5ff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 40px;
+  color: var(--text);
+}
+
+.order-form select option {
+  background: var(--bg-soft);
+  color: var(--text);
+  padding: 10px 14px;
 }
 
 .order-form input:focus,
@@ -1047,14 +1080,11 @@ main {
     padding: 28px 20px;
   }
 
-  /* Slightly smaller circle and tap area on small screens */
   .nav {
-    width: 240px;
-    height: 240px;
+    width: min(220px, 92vw);
   }
 
   .nav a {
-    transform: rotate(var(--angle, 0deg)) translateY(-90px) rotate(calc(-1 * var(--angle, 0deg)));
     padding: 10px 14px;
     font-size: 0.875rem;
   }

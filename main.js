@@ -122,6 +122,42 @@ function renderServiceDetailPage(content) {
   document.title = title + " - " + (content.siteName || "OrzuIT");
 }
 
+function renderProjectDetailPage(content) {
+  const block = document.getElementById("project-detail");
+  if (!block) return;
+  const params = new URLSearchParams(location.search);
+  const nameParam = params.get("name");
+  const projects = Array.isArray(content.projects) ? content.projects : [];
+  const project = nameParam ? projects.find((p) => (p.name || "").trim() === nameParam.trim()) : null;
+  if (!project) {
+    block.innerHTML = `
+      <p class="service-detail-notfound">Projekt nicht gefunden.</p>
+      <a class="button" href="projects.html">Alle Projekte</a>
+    `;
+    document.title = "Projekt nicht gefunden - " + (content.siteName || "OrzuIT");
+    return;
+  }
+  const name = (project.name || "").trim() || "Projekt";
+  const description = project.description || "";
+  const details = Array.isArray(project.details) ? project.details : [];
+  const detailsHtml = details
+    .filter((d) => (d.label || d.value))
+    .map((d) => `<div class="project-detail-row"><span class="project-detail-label">${escapeHtml(d.label || "")}</span><span class="project-detail-value">${escapeHtml(d.value || "")}</span></div>`)
+    .join("");
+  const projectLinkUrl = normalizeExternalUrl(project.link);
+  const openBtn = projectLinkUrl
+    ? `<a class="button" href="${escapeHtml(projectLinkUrl)}" target="_blank" rel="noreferrer">Projekt öffnen</a>`
+    : "";
+  block.innerHTML = `
+    <a class="service-detail-back" href="projects.html">← Projekte</a>
+    <h1 class="service-detail-title">${escapeHtml(name)}</h1>
+    ${description ? `<p class="service-detail-lead">${escapeHtml(description)}</p>` : ""}
+    ${detailsHtml ? `<div class="project-detail-body">${detailsHtml}</div>` : ""}
+    ${openBtn}
+  `;
+  document.title = name + " - " + (content.siteName || "OrzuIT");
+}
+
 function escapeHtml(s) {
   if (typeof s !== "string") return "";
   return s
@@ -317,6 +353,14 @@ function createProjectCard(project, isFeatured = false) {
   description.textContent = project.description || "";
   item.appendChild(description);
 
+  const actions = document.createElement("div");
+  actions.className = "project-card-actions";
+  const detailLink = document.createElement("a");
+  detailLink.className = "button secondary";
+  detailLink.textContent = "Mehr erfahren";
+  const projectName = (project.name || "").trim() || "Projekt";
+  detailLink.href = "project.html?name=" + encodeURIComponent(projectName);
+  actions.appendChild(detailLink);
   const link = document.createElement("a");
   link.className = "button secondary";
   link.textContent = "Offnen";
@@ -329,7 +373,8 @@ function createProjectCard(project, isFeatured = false) {
     link.classList.add("is-disabled");
     link.setAttribute("aria-disabled", "true");
   }
-  item.appendChild(link);
+  actions.appendChild(link);
+  item.appendChild(actions);
 
   return item;
 }
@@ -492,6 +537,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderHome(content);
   renderServices(content);
   renderServiceDetailPage(content);
+  renderProjectDetailPage(content);
   renderAbout(content);
   renderContacts(content);
   renderProjects(content);

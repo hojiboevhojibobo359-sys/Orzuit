@@ -51,7 +51,8 @@ const defaultContent = {
       name: "Meine Projekte",
       description:
         "Hier werden Ihre realisierten Projekte veroffentlicht: Websites und Web-Anwendungen fur kleine Unternehmen.",
-      link: "#"
+      link: "#",
+      details: []
     }
   ]
 };
@@ -75,7 +76,9 @@ function normalizeContent(parsed) {
     services: Array.isArray(parsed && parsed.services)
       ? parsed.services.map((s) => ({ ...s, details: s.details != null ? s.details : "" }))
       : defaultContent.services,
-    projects: Array.isArray(parsed && parsed.projects) ? parsed.projects : defaultContent.projects
+    projects: Array.isArray(parsed && parsed.projects)
+      ? parsed.projects.map((p) => ({ ...p, details: Array.isArray(p.details) ? p.details : [] }))
+      : defaultContent.projects
   };
 }
 

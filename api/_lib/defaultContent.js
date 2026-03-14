@@ -42,7 +42,13 @@ const defaultContent = {
       name: "Meine Projekte",
       description:
         "Hier werden Ihre realisierten Projekte veroffentlicht: Websites und Web-Anwendungen fur kleine Unternehmen.",
-      link: "#"
+      link: "#",
+      details: [
+        { label: "Programmiersprache", value: "" },
+        { label: "Technologien", value: "" },
+        { label: "Arbeitsstunden", value: "" },
+        { label: "Anzahl Programmierer", value: "" }
+      ]
     }
   ]
 };

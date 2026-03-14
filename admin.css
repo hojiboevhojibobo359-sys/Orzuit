@@ -152,12 +152,12 @@ body {
   border-color: var(--danger);
 }
 
-/* Semicircle nav on the left */
+/* Admin nav: vertical list on the left */
 #admin-nav {
   position: fixed;
   left: 0;
   top: 0;
-  width: 280px;
+  width: 260px;
   height: 100vh;
   z-index: 15;
   pointer-events: none;
@@ -182,49 +182,34 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 260px;
+  min-height: 100vh;
+  padding: 72px 0 24px 0;
+  background: var(--bg-soft);
+  border-right: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* Semicircle on the left: 7 items from top to bottom along left arc */
 #admin-nav a {
-  position: absolute;
-  width: auto;
-  white-space: nowrap;
+  display: block;
   text-decoration: none;
   color: var(--muted);
   font-size: 0.9375rem;
   font-weight: 500;
-  padding: 10px 16px;
-  border-radius: 999px;
+  padding: 12px 20px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   border: 1px solid transparent;
-  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
-  opacity: 0;
-  animation: adminNavIn 0.35s ease both;
+  border-left: none;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
 }
-
-#admin-nav.is-open a { opacity: 1; }
-
-/* Arc positions: left increases toward center, top distributes 15% to 85% */
-#admin-nav a:nth-child(1) { left: 24px;  top: 15%; animation-delay: 0.03s; }
-#admin-nav a:nth-child(2) { left: 44px;  top: 28%; animation-delay: 0.06s; }
-#admin-nav a:nth-child(3) { left: 64px;  top: 42%; animation-delay: 0.09s; }
-#admin-nav a:nth-child(4) { left: 84px;  top: 50%; animation-delay: 0.12s; transform: translateY(-50%); }
-#admin-nav a:nth-child(5) { left: 64px;  top: 58%; animation-delay: 0.15s; }
-#admin-nav a:nth-child(6) { left: 44px;  top: 72%; animation-delay: 0.18s; }
-#admin-nav a:nth-child(7) { left: 24px;  top: 85%; animation-delay: 0.21s; }
 
 #admin-nav a:hover,
 #admin-nav a.active {
   color: var(--accent);
   background: rgba(0, 245, 255, 0.08);
-  border-color: rgba(0, 245, 255, 0.25);
-  box-shadow: 0 0 18px rgba(0, 245, 255, 0.15);
-}
-
-@keyframes adminNavIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  border-color: rgba(0, 245, 255, 0.2);
 }
 
 .admin-main {
@@ -343,6 +328,28 @@ body {
   border-radius: var(--radius);
   padding: 16px;
   background: rgba(0, 0, 0, 0.2);
+}
+
+.project-details-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.detail-row label {
+  margin: 0;
+}
+
+.detail-row .button.ghost {
+  padding: 8px 12px;
+  font-size: 0.8125rem;
 }
 
 .row-actions {
