@@ -265,19 +265,74 @@ body::after {
 .menu-wrap {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   margin-left: auto;
   position: relative;
+  overflow: visible;
 }
 
+/* Circular nav on all devices - centered on the round button */
 .nav {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 260px;
+  height: 260px;
+  margin: 0;
+  transform: translate(50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
 }
 
-/* Round menu button - top right, hamburger to X */
+.nav.is-open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.nav a {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: auto;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transform: rotate(var(--angle, 0deg)) translateY(-100px) rotate(calc(-1 * var(--angle, 0deg)));
+  opacity: 0;
+  transition: opacity 0.25s var(--ease), box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s;
+  animation: menuCircleIn 0.4s var(--ease) both;
+}
+
+.nav a:nth-child(1) { --angle: 0deg;   animation-delay: 0.05s; }
+.nav a:nth-child(2) { --angle: 72deg;  animation-delay: 0.1s; }
+.nav a:nth-child(3) { --angle: 144deg; animation-delay: 0.15s; }
+.nav a:nth-child(4) { --angle: 216deg; animation-delay: 0.2s; }
+.nav a:nth-child(5) { --angle: 288deg; animation-delay: 0.25s; }
+
+.nav.is-open a { opacity: 1; }
+
+.nav a.active,
+.nav a:hover {
+  color: var(--accent);
+  background: rgba(0, 245, 255, 0.08);
+  border-color: rgba(0, 245, 255, 0.25);
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+}
+
+.nav a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Round menu button - visible on all devices (top right) */
 .menu-toggle {
-  display: none;
+  display: flex;
   width: 52px;
   height: 52px;
   border: 1px solid var(--card-border);
@@ -291,6 +346,7 @@ body::after {
   gap: 6px;
   transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.2s;
   box-shadow: 0 0 25px rgba(0, 245, 255, 0.12);
+  flex-shrink: 0;
 }
 
 .menu-toggle:active {
@@ -325,30 +381,6 @@ body::after {
 
 .menu-toggle-text {
   display: none;
-}
-
-.nav a {
-  text-decoration: none;
-  color: var(--muted);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  transition: color 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s;
-  border: 1px solid transparent;
-}
-
-.nav a.active,
-.nav a:hover {
-  color: var(--accent);
-  background: rgba(0, 245, 255, 0.06);
-  border-color: rgba(0, 245, 255, 0.2);
-  box-shadow: 0 0 15px rgba(0, 245, 255, 0.1);
-}
-
-.nav a:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
 
 /* Main - page entrance 2090 */
@@ -528,6 +560,37 @@ main {
 .grid .card.reveal-in:nth-child(7) { transition-delay: 0.38s; }
 .grid .card.reveal-in:nth-child(8) { transition-delay: 0.44s; }
 
+/* Service cards: Mehr erfahren + Bestellen */
+.service-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card p {
+  flex: 1;
+}
+
+.service-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 245, 255, 0.1);
+}
+
+.service-card-actions .button {
+  margin-top: 0;
+}
+
+.service-btn-detail {
+  min-width: 120px;
+}
+
+.service-btn-order {
+  min-width: 100px;
+}
+
 .card h3 {
   margin: 0 0 10px;
   font-size: 1.25rem;
@@ -685,6 +748,10 @@ main {
 }
 
 /* Order / Anfrage form */
+#order-section {
+  scroll-margin-top: 88px;
+}
+
 .order-section {
   margin-top: 40px;
 }
@@ -703,6 +770,7 @@ main {
 }
 
 .order-form input,
+.order-form select,
 .order-form textarea {
   width: 100%;
   margin-top: 6px;
@@ -716,7 +784,17 @@ main {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.order-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300f5ff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+
 .order-form input:focus,
+.order-form select:focus,
 .order-form textarea:focus {
   outline: none;
   border-color: var(--accent);
@@ -915,55 +993,25 @@ main {
     padding: 28px 20px;
   }
 
-  .menu-wrap {
-    overflow: visible;
-  }
-
-  .menu-toggle {
-    display: flex;
-  }
-
-  /* Circular menu - items in a circle around the round button */
+  /* Slightly smaller circle and tap area on small screens */
   .nav {
-    position: absolute;
-    right: 0;
-    top: 0;
     width: 240px;
     height: 240px;
-    margin: 0;
-    transform: translate(50%, -50%);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.35s var(--ease);
-  }
-
-  .nav.is-open {
-    pointer-events: auto;
-    opacity: 1;
   }
 
   .nav a {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: auto;
-    white-space: nowrap;
-    padding: 10px 16px;
-    border-radius: 999px;
-    transform: rotate(var(--angle, 0deg)) translateY(-95px) rotate(calc(-1 * var(--angle, 0deg)));
-    opacity: 0;
-    transition: opacity 0.25s var(--ease), box-shadow 0.2s, transform 0.35s var(--ease);
-    animation: menuCircleIn 0.4s var(--ease) both;
+    transform: rotate(var(--angle, 0deg)) translateY(-90px) rotate(calc(-1 * var(--angle, 0deg)));
+    padding: 10px 14px;
+    font-size: 0.875rem;
   }
 
-  .nav.is-open a:nth-child(1) { --angle: 0deg;   animation-delay: 0.05s; }
-  .nav.is-open a:nth-child(2) { --angle: 72deg;  animation-delay: 0.1s; }
-  .nav.is-open a:nth-child(3) { --angle: 144deg; animation-delay: 0.15s; }
-  .nav.is-open a:nth-child(4) { --angle: 216deg; animation-delay: 0.2s; }
-  .nav.is-open a:nth-child(5) { --angle: 288deg; animation-delay: 0.25s; }
+  .menu-toggle {
+    width: 48px;
+    height: 48px;
+  }
 
-  .nav a:hover {
-    box-shadow: 0 0 25px rgba(0, 245, 255, 0.35);
+  .menu-toggle-bar {
+    width: 20px;
   }
 
   .founder-layout {

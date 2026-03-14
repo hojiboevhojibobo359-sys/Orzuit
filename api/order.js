@@ -21,8 +21,10 @@ function buildOrderMessage(body) {
   const name = escapeHtml(String(body.name || "").trim());
   const email = escapeHtml(String(body.email || "").trim());
   const phone = escapeHtml(String(body.phone || "").trim());
+  const service = escapeHtml(String(body.service || "").trim());
   const message = escapeHtml(String(body.message || "").trim());
   const lines = ["🆕 <b>Neue Anfrage / Bestellung</b>", ""];
+  if (service) lines.push("<b>Leistung:</b> " + service);
   if (name) lines.push("<b>Name:</b> " + name);
   if (email) lines.push("<b>E-Mail:</b> " + email);
   if (phone) lines.push("<b>Telefon:</b> " + phone);

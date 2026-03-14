@@ -74,15 +74,31 @@ function renderServices(content) {
   const list = document.getElementById("services-list");
   if (!list) return;
   list.innerHTML = "";
-  content.services.forEach((service) => {
+  const services = Array.isArray(content.services) ? content.services : [];
+  services.forEach((service) => {
+    const title = (service.title || "").trim() || "Leistung";
+    const desc = service.description || "";
+    const orderUrl = "contacts.html?service=" + encodeURIComponent(title) + "#order-section";
     const item = document.createElement("article");
-    item.className = "card";
+    item.className = "card service-card";
     item.innerHTML = `
-      <h3>${service.title}</h3>
-      <p>${service.description}</p>
+      <h3>${escapeHtml(title)}</h3>
+      <p>${escapeHtml(desc)}</p>
+      <div class="service-card-actions">
+        <a class="button secondary service-btn-detail" href="${orderUrl}">Mehr erfahren</a>
+        <a class="button service-btn-order" href="${orderUrl}">Bestellen</a>
+      </div>
     `;
     list.appendChild(item);
   });
+}
+
+function escapeHtml(s) {
+  if (typeof s !== "string") return "";
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function renderAbout(content) {
@@ -322,6 +338,38 @@ function applyCommon(content) {
   });
 }
 
+function fillOrderServiceSelect(services) {
+  const select = document.getElementById("order-service");
+  if (!select) return;
+  const firstOption = select.querySelector('option[value=""]');
+  select.innerHTML = firstOption ? firstOption.outerHTML : '<option value="">— Bitte wählen —</option>';
+  (Array.isArray(services) ? services : []).forEach((s) => {
+    const title = (s.title || "").trim();
+    if (!title) return;
+    const opt = document.createElement("option");
+    opt.value = title;
+    opt.textContent = title;
+    select.appendChild(opt);
+  });
+}
+
+function applyOrderFormFromUrl(content) {
+  const params = new URLSearchParams(location.search);
+  const service = params.get("service");
+  fillOrderServiceSelect(content.services);
+  const select = document.getElementById("order-service");
+  if (service && select) {
+    const option = Array.from(select.options).find((o) => o.value === service);
+    if (option) select.value = service;
+    const section = document.getElementById("order-section");
+    if (section) {
+      requestAnimationFrame(() => {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }
+}
+
 function setupOrderForm() {
   const form = document.getElementById("order-form");
   const statusEl = document.getElementById("order-status");
@@ -378,13 +426,15 @@ function setupOrderForm() {
     const email = (document.getElementById("order-email") && document.getElementById("order-email").value) || "";
     const phone = (document.getElementById("order-phone") && document.getElementById("order-phone").value) || "";
     const message = (document.getElementById("order-message") && document.getElementById("order-message").value) || "";
+    const serviceEl = document.getElementById("order-service");
+    const service = (serviceEl && serviceEl.value) || "";
     setStatus("Wird gesendet…", false);
 
     try {
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, message })
+        body: JSON.stringify({ name, email, phone, message, service })
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
@@ -416,6 +466,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderContacts(content);
   renderProjects(content);
   renderFeaturedProject(content);
+  applyOrderFormFromUrl(content);
 
   requestAnimationFrame(() => {
     document.body.classList.add("content-ready");

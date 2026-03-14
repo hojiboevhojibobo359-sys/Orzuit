@@ -39,10 +39,11 @@
       <h1 class="section-title">Kontakt</h1>
       <div class="list" id="contacts-list"></div>
 
-      <section class="order-section card">
+      <section id="order-section" class="order-section card">
         <h2 class="section-title" style="font-size: 1.35rem; margin-bottom: 8px;">Anfrage oder Bestellung senden</h2>
         <p class="muted" style="margin-bottom: 20px;">Füllen Sie das Formular aus – Sie erhalten die Bestätigung und wir melden uns bei Ihnen. Die Anfrage kommt in unserem Telegram an.</p>
         <form id="order-form" class="order-form">
+          <label>Leistung / Dienst <select id="order-service" name="service" aria-label="Leistung auswählen"><option value="">— Bitte wählen —</option></select></label>
           <label>Name <input id="order-name" name="name" type="text" placeholder="Ihr Name" /></label>
           <label>E-Mail <input id="order-email" name="email" type="email" placeholder="ihre@email.de" /></label>
           <label>Telefon <input id="order-phone" name="phone" type="tel" placeholder="+49 ..." /></label>
