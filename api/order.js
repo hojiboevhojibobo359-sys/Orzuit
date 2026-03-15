@@ -1,4 +1,4 @@
-const { getTelegramSettings } = require("./_lib/db");
+const { getTelegramSettings, saveOrder } = require("./_lib/db");
 const { sendJson, readJson } = require("./_lib/http");
 
 async function getTelegramCredentials() {
@@ -51,26 +51,30 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 400, { error: "Bitte Name, E-Mail oder Nachricht angeben." });
   }
 
-  const { chatId, botToken } = await getTelegramCredentials();
-  if (!chatId || !botToken) {
-    return sendJson(res, 503, { error: "Benachrichtigungen sind derzeit nicht eingerichtet." });
-  }
-
-  const text = buildOrderMessage(body);
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
-    });
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok || !data.ok) {
-      return sendJson(res, 502, { error: data.description || "Fehler beim Senden." });
-    }
-    return sendJson(res, 200, { ok: true });
-  } catch (error) {
-    return sendJson(res, 502, { error: "Anfrage konnte nicht gesendet werden." });
+    await saveOrder(body);
+  } catch (err) {
+    return sendJson(res, 500, { error: "Bestellung konnte nicht gespeichert werden." });
   }
+
+  const { chatId, botToken } = await getTelegramCredentials();
+  if (chatId && botToken) {
+    const text = buildOrderMessage(body);
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        // Order already saved; log but don't fail
+      }
+    } catch {
+      // Order already saved
+    }
+  }
+
+  return sendJson(res, 200, { ok: true });
 };

@@ -69,6 +69,18 @@ async function initDatabase() {
     if (!tgRow.rows.length) {
       await query("INSERT INTO telegram_settings (id, chat_id, bot_token) VALUES (1, NULL, NULL);");
     }
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS orders (
+        id SERIAL PRIMARY KEY,
+        name TEXT,
+        email TEXT,
+        phone TEXT,
+        service TEXT,
+        message TEXT NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `);
   })();
   return initPromise;
 }
@@ -141,6 +153,33 @@ async function saveTelegramSettings(chatId, botToken) {
   return getTelegramSettings();
 }
 
+async function saveOrder(body) {
+  await initDatabase();
+  const result = await query(
+    `
+      INSERT INTO orders (name, email, phone, service, message)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, name, email, phone, service, message, created_at;
+    `,
+    [
+      String(body.name || "").trim() || null,
+      String(body.email || "").trim() || null,
+      String(body.phone || "").trim() || null,
+      String(body.service || "").trim() || null,
+      String(body.message || "").trim() || ""
+    ]
+  );
+  return result.rows[0];
+}
+
+async function getOrders() {
+  await initDatabase();
+  const result = await query(
+    "SELECT id, name, email, phone, service, message, created_at FROM orders ORDER BY created_at DESC;"
+  );
+  return result.rows;
+}
+
 module.exports = {
   initDatabase,
   getContent,
@@ -150,5 +189,7 @@ module.exports = {
   getPrimaryAdmin,
   updateAdminCredentials,
   getTelegramSettings,
-  saveTelegramSettings
+  saveTelegramSettings,
+  saveOrder,
+  getOrders
 };

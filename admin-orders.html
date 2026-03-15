@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OrzuIT Admin - Projekte</title>
+    <title>OrzuIT Admin - Bestellungen</title>
     <link rel="stylesheet" href="admin.css" />
   </head>
-  <body data-admin-page="projects">
+  <body data-admin-page="orders">
     <div class="admin-shell">
       <header class="admin-header-bar">
         <div class="admin-menu-wrap">
@@ -39,27 +39,29 @@
 
       <main class="admin-main">
         <header class="admin-header">
-          <h1>Projekte bearbeiten</h1>
-          <p>Projektliste, Kategorien und Projektnummern verwalten.</p>
+          <h1>Bestellungen</h1>
+          <p>Alle über das Kontaktformular eingegangenen Bestellungen und Anfragen.</p>
         </header>
 
         <section class="admin-card">
-          <h2>Kategorien</h2>
-          <p class="muted">Kategorien hinzufugen, andern oder loschen. Jedes Projekt kann einer Kategorie zugeordnet werden.</p>
-          <div id="categoriesRows" class="list"></div>
-          <button id="addCategory" class="button secondary" type="button">Kategorie hinzufugen</button>
-        </section>
-
-        <section class="admin-card">
-          <p class="muted">Das erste Projekt wird als Hauptprojekt auf der Startseite angezeigt. Jedes Projekt erhalt beim Speichern eine eindeutige 5-stellige Projektnummer.</p>
-          <form id="projectsForm" class="admin-form">
-            <div id="projectsRows" class="list"></div>
-            <div class="row-actions">
-              <button id="addProject" class="button secondary" type="button">Projekt hinzufugen</button>
-              <button class="button" type="submit">Speichern</button>
-              <span id="status" class="status" hidden></span>
-            </div>
-          </form>
+          <div id="ordersLoading" class="muted">Laden…</div>
+          <div id="ordersError" class="status" style="background: #fef2f2; border-color: #fecaca;" hidden></div>
+          <div id="ordersTableWrap" hidden>
+            <table class="admin-table" id="ordersTable">
+              <thead>
+                <tr>
+                  <th>Datum</th>
+                  <th>Name</th>
+                  <th>E-Mail</th>
+                  <th>Telefon</th>
+                  <th>Leistung</th>
+                  <th>Nachricht</th>
+                </tr>
+              </thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
+          <p id="ordersEmpty" class="muted" hidden>Noch keine Bestellungen.</p>
         </section>
       </main>
     </div>
@@ -67,5 +69,6 @@
     <script src="content.js"></script>
     <script src="admin-auth.js"></script>
     <script src="admin-sections.js"></script>
+    <script src="admin-orders.js"></script>
   </body>
 </html>
