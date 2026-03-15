@@ -89,6 +89,19 @@ async function initDatabase() {
         reset_at TIMESTAMPTZ NOT NULL
       );
     `);
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS analytics (
+        id SERIAL PRIMARY KEY,
+        page TEXT NOT NULL,
+        ip TEXT,
+        country TEXT,
+        referrer TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `);
+    await query("CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON analytics(created_at);");
+    await query("CREATE INDEX IF NOT EXISTS idx_analytics_page ON analytics(page);");
   })();
   return initPromise;
 }

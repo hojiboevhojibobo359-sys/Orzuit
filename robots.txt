@@ -21,6 +21,7 @@ Disallow: /admin-about
 Disallow: /admin-contacts
 Disallow: /admin-projects
 Disallow: /admin-orders
+Disallow: /admin-analytics
 Disallow: /admin-telegram
 
 # Sitemap location (replace with your real domain if different)

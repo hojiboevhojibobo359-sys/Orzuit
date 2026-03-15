@@ -13,6 +13,7 @@ const LIMITS = {
   login: { max: 10, windowMs: 15 * 60 * 1000 },
   order: { max: 20, windowMs: 60 * 1000 },
   content: { max: 60, windowMs: 60 * 1000 },
+  analytics: { max: 120, windowMs: 60 * 1000 },
   default: { max: 100, windowMs: DEFAULT_WINDOW_MS }
 };
 

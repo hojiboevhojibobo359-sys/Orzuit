@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OrzuIT Admin - Analytik</title>
+    <link rel="stylesheet" href="admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body data-admin-page="analytics">
+    <div class="admin-shell">
+      <header class="admin-header-bar">
+        <div class="admin-menu-wrap">
+          <button class="admin-menu-toggle" type="button" aria-expanded="false" aria-controls="admin-nav" aria-label="Menu">
+            <span class="admin-menu-toggle-bar"></span>
+            <span class="admin-menu-toggle-bar"></span>
+            <span class="admin-menu-toggle-bar"></span>
+          </button>
+        </div>
+        <a class="admin-brand" href="/admin"><span data-site-name>OrzuIT</span> <small>Admin</small></a>
+        <div class="admin-header-actions">
+          <a class="to-site" href="/">Zur Website</a>
+          <button class="logout-btn" type="button" data-admin-logout>Abmelden</button>
+        </div>
+      </header>
+
+      <nav id="admin-nav" class="admin-nav-semicircle" aria-hidden="true">
+        <div class="admin-nav-backdrop"></div>
+        <div class="admin-nav-inner">
+          <a data-admin-nav href="/admin">Dashboard</a>
+          <a data-admin-nav href="/admin-home">Startseite</a>
+          <a data-admin-nav href="/admin-services">Leistungen</a>
+          <a data-admin-nav href="/admin-about">Über uns</a>
+          <a data-admin-nav href="/admin-contacts">Kontakt</a>
+          <a data-admin-nav href="/admin-projects">Projekte</a>
+          <a data-admin-nav href="/admin-orders">Bestellungen</a>
+          <a data-admin-nav href="/admin-analytics">Analytik</a>
+          <a data-admin-nav href="/admin-telegram">Telegram</a>
+        </div>
+      </nav>
+
+      <main class="admin-main">
+        <header class="admin-header">
+          <h1>Analytik</h1>
+          <p>Besuche und Seitenaufrufe – Daten aus der eigenen Datenbank.</p>
+        </header>
+
+        <section class="admin-card admin-analytics-filters">
+          <h2 class="admin-analytics-h2">Filter</h2>
+          <div class="admin-analytics-filter-row">
+            <label>Von <input type="date" id="filterFrom" /></label>
+            <label>Bis <input type="date" id="filterTo" /></label>
+            <label>Seite <select id="filterPage"><option value="">Alle</option></select></label>
+            <label>Zeitraum <select id="filterGroupBy"><option value="day">Täglich</option><option value="week">Wöchentlich</option></select></label>
+            <button type="button" class="button" id="filterApply">Anwenden</button>
+          </div>
+        </section>
+
+        <section class="admin-card admin-analytics-summary">
+          <h2 class="admin-analytics-h2">Besuche gesamt</h2>
+          <p class="admin-analytics-total" id="analyticsTotal">0</p>
+        </section>
+
+        <section class="admin-card">
+          <h2 class="admin-analytics-h2">Aufrufe nach Seite</h2>
+          <div id="analyticsPageLoading" class="muted">Laden…</div>
+          <div id="analyticsPageTableWrap" hidden>
+            <table class="admin-table">
+              <thead><tr><th>Seite</th><th>Aufrufe</th></tr></thead>
+              <tbody id="analyticsPageBody"></tbody>
+            </table>
+          </div>
+          <p id="analyticsPageEmpty" class="muted" hidden>Keine Daten.</p>
+        </section>
+
+        <section class="admin-card admin-analytics-charts">
+          <div class="admin-analytics-chart-grid">
+            <div class="admin-analytics-chart-wrap">
+              <h2 class="admin-analytics-h2">Nach Land</h2>
+              <div class="admin-analytics-chart-inner"><canvas id="chartCountry"></canvas></div>
+            </div>
+            <div class="admin-analytics-chart-wrap">
+              <h2 class="admin-analytics-h2">Besuche im Zeitverlauf</h2>
+              <div class="admin-analytics-chart-inner"><canvas id="chartTime"></canvas></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="content.js"></script>
+    <script src="admin-auth.js"></script>
+    <script src="admin-sections.js"></script>
+    <script src="admin-analytics.js"></script>
+  </body>
+</html>

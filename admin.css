@@ -512,3 +512,69 @@ body {
   #admin-nav a:nth-child(6){ --angle: -60deg; --radius: 55; }
   #admin-nav a:nth-child(7){ --angle: -90deg; --radius: 55; }
 }
+
+/* Analytics */
+.admin-analytics-h2 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.admin-analytics-filters .admin-analytics-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.admin-analytics-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.admin-analytics-filters input[type="date"],
+.admin-analytics-filters select {
+  padding: 8px 10px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  font: inherit;
+  min-width: 120px;
+}
+
+.admin-analytics-summary {
+  margin-top: 20px;
+}
+
+.admin-analytics-total {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent);
+}
+
+.admin-analytics-charts {
+  margin-top: 20px;
+}
+
+.admin-analytics-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.admin-analytics-chart-wrap {
+  min-height: 260px;
+}
+
+.admin-analytics-chart-inner {
+  position: relative;
+  height: 240px;
+  margin-top: 8px;
+}

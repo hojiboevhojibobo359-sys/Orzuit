@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "geoip-lite": "^1.4.10",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1"
   }
