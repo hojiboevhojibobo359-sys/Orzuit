@@ -9,11 +9,15 @@ Professional multi-page website with admin panel, backend API, and PostgreSQL da
 - Database: PostgreSQL (`pg`)
 - Admin auth: JWT + hashed passwords (`bcryptjs`)
 
-## Vercel Analytics / local setup note
+## Vercel Analytics & SpeedInsights / local setup note
 
-- This project uses custom analytics at `analytics.js` → `POST /api/analytics`, not `@vercel/analytics/next` client import in PowerShell.
-- Do not run JS module `import` statements directly in shell. Use them only in script/module files that are bundled by a JS toolchain.
-- For Vercel built-in analytics, configure in Vercel dashboard and continue using plan-specific tooling.
+- This project uses custom analytics at `analytics.js` → `POST /api/analytics`, not `@vercel/analytics/next` client import.
+- **IMPORTANT:** Do NOT run JS module `import` statements directly in PowerShell or any shell. Use them only inside script/module files (`.js`, `.ts`, etc.) that are bundled by a JS toolchain or runtime.
+- Common mistake to avoid:
+  - ❌ Wrong: `import { Analytics } from "@vercel/analytics/next"` (in PowerShell)
+  - ❌ Wrong: `import { SpeedInsights } from "@vercel/speed-insights/next"` (in PowerShell)
+  - ✅ Correct: Place the import inside an `.js` or `.ts` file that will be executed by a bundler/framework.
+- For Vercel built-in analytics or speed insights, configure in Vercel dashboard and integrate in your JS code appropriately.
 
 ## Environment Variables
 
