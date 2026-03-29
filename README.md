@@ -9,6 +9,12 @@ Professional multi-page website with admin panel, backend API, and PostgreSQL da
 - Database: PostgreSQL (`pg`)
 - Admin auth: JWT + hashed passwords (`bcryptjs`)
 
+## Vercel Analytics / local setup note
+
+- This project uses custom analytics at `analytics.js` → `POST /api/analytics`, not `@vercel/analytics/next` client import in PowerShell.
+- Do not run JS module `import` statements directly in shell. Use them only in script/module files that are bundled by a JS toolchain.
+- For Vercel built-in analytics, configure in Vercel dashboard and continue using plan-specific tooling.
+
 ## Environment Variables
 
 Set these variables in Vercel project settings:
