@@ -16,6 +16,11 @@ Professional multi-page website with admin panel, backend API, and PostgreSQL da
 
 Analytics are custom: `analytics.js` → `POST /api/analytics` (not the Next.js `@vercel/analytics` package).
 
+### Logo & favicon
+
+- **In repo:** `public/logo.svg` (header, default `siteLogo`), `public/favicon.svg` (tab icon). Linked from all HTML pages and `site.webmanifest`.
+- **Optional PNG set** (16–512 px, Apple touch, Android): install devDependencies (`npm install`), run `npm run icons` — uses `sharp` to rasterize the SVGs into `public/*.png`. Commit those files if you need legacy PNG-only clients or richer Open Graph images (many social crawlers prefer PNG/JPEG ~1200×630).
+
 ### Vercel “404 NOT_FOUND” after deploy (build cache)
 
 If logs show `404: NOT_FOUND` with an id like `fra1::…` while **uploading the build cache**, that is a **Vercel platform/storage glitch**, not an application bug. The deployment can still succeed; redeploy or contact Vercel support if it repeats.

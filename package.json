@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vercel dev",
     "build": "node scripts/build.cjs",
+    "icons": "node scripts/rasterize-icons.cjs",
     "test": "node --test tests/**/*.test.cjs"
   },
   "dependencies": {
@@ -16,5 +17,8 @@
     "geoip-lite": "^1.4.10",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

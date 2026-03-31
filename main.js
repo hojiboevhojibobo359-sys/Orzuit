@@ -574,7 +574,7 @@ function getPreviewSources(url) {
   return sources;
 }
 
-const DEFAULT_LOGO_URL = "https://i.imgur.com/qiFjcQR.jpeg";
+const DEFAULT_LOGO_URL = "/logo.svg";
 
 function applyCommon(content) {
   document.querySelectorAll("[data-site-name]").forEach((el) => {

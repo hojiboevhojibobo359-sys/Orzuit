@@ -1,6 +1,6 @@
 const defaultContent = {
   siteName: "OrzuIT",
-  siteLogo: "https://i.imgur.com/qiFjcQR.jpeg",
+  siteLogo: "/logo.svg",
   home: {
     title: "Webentwicklung für KMU: performante Websites & skalierbare Web-Apps",
     subtitle: "Websites und digitale Produkte mit klarem Fokus auf Performance, UX und planbare Release-Zyklen",

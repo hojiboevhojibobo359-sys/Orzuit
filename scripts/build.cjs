@@ -18,7 +18,9 @@ const requiredFiles = [
   "api/content.js",
   "api/order.js",
   "api/_lib/validate.js",
-  "public/site.webmanifest"
+  "public/site.webmanifest",
+  "public/logo.svg",
+  "public/favicon.svg"
 ];
 
 let failed = false;
