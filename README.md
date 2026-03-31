@@ -11,8 +11,14 @@ Professional multi-page website with admin panel, backend API, and PostgreSQL da
 
 ## Build & deploy
 
-- **Production build** (`vercel build` / Vercel dashboard): runs `npm run build` → checks required files and `npm test` (see `scripts/build.cjs`).
-- **Local:** `npm test`
+- **Production build** (`vercel build` / Vercel dashboard): runs `npm run build` → checks required files, **validates every `vercel.json` rewrite against real `*.html` files**, runs `npm test` (see `scripts/build.cjs`).
+- **Local:** `npm test` or `npm run build`
+
+### Почему был site-wide 404 на Vercel
+
+1. **Неполная папка `.vercel/output` (Build Output API)** без корректного `config.json` — не использовать; сборка **не** генерирует `.vercel/output`.
+2. **Root Directory** в настройках проекта Vercel не должен указывать на `public/` — корень репозитория должен содержать `index.html`, остальные `*.html`, `vercel.json`, `api/`.
+3. **Домен** должен быть привязан к **этому** проекту и актуальному **Production** deployment.
 
 Analytics are custom: `analytics.js` → `POST /api/analytics` (not the Next.js `@vercel/analytics` package).
 
