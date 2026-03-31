@@ -1,5 +1,13 @@
 {
-  "framework": null,
+  "buildCommand": "echo 'Build complete'",
+  "devCommand": "vercel dev",
+  "outputDirectory": ".",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "public/**",
+      "runtime": "nodejs20.x"
+    }
+  }
 }
