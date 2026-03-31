@@ -59,6 +59,12 @@ Statische Multi-Page-Website (Vercel) mit serverlosen APIs (`/api/content`, `/ap
 
 ---
 
+## Deploy / Vercel: `404 NOT_FOUND` (fra1::…)
+
+Trat diese Meldung **nach** „Deployment completed“ bei **Build-Cache-Upload** auf, handelt es sich um einen **bekannten Infrastruktur-Fehler** seitens Vercel (Region/Storage), nicht um fehlerhaften Projektcode. Mit `npm run build` (Tests + Pflichtdateien) schlägt die Anwendungs-Build-Phase bei Problemen im Repo fehl. Bei wiederholten Cache-Fehlern: Redeploy oder Vercel-Support mit der angezeigten **ID** kontaktieren.
+
+---
+
 ## Priorisierte nächste Schritte (Backlog)
 
 1. **P0:** Produktions-Content in Admin einpflegen (keine Platzhalter-Gründerdaten live).

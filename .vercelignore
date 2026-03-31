@@ -1,0 +1,8 @@
+# Editor and local tooling (not needed on Vercel)
+.vscode/
+.idea/
+
+# Optional: keep repo docs out of the deployment upload (build uses only scripts + sources)
+# Uncomment if uploads should be smaller:
+# *.md
+# !README.md
