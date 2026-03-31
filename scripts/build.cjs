@@ -21,6 +21,7 @@ const requiredFiles = [
   "content.js",
   "api/content.js",
   "api/order.js",
+  "api/page.js",
   "api/_lib/validate.js",
   "public/site.webmanifest",
   "public/logo.svg",
@@ -113,7 +114,7 @@ function validateVercelConfig() {
   for (const rule of allRules) {
     const source = typeof rule.source === "string" ? rule.source : "";
     const src = source.trim();
-    if (src === "/" || src === "/(.*)" || src === "/:path*") {
+    if (src === "/" || src === "/:path*") {
       console.error("[build] Dangerous top-level route override found in vercel.json:", rule);
       process.exit(1);
     }
@@ -123,7 +124,8 @@ function validateVercelConfig() {
     const source = typeof rule.source === "string" ? rule.source : "";
     const dest = typeof rule.destination === "string" ? rule.destination : "";
     if (!source || !dest) continue;
-    if (source === "/(.*)" && /^\/api/.test(dest)) {
+    const isSafeFallback = source === "/(.*)" && /^\/api\/page(\?|$)/.test(dest);
+    if (source === "/(.*)" && /^\/api/.test(dest) && !isSafeFallback) {
       console.error("[build] Dangerous catch-all rewrite to /api detected:", rule);
       process.exit(1);
     }
