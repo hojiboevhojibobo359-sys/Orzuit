@@ -1,8 +1,3 @@
-/**
- * Centralized validation for API input.
- * Each validator returns { valid: true, data } or { valid: false, errors: [{ field, message }] }.
- */
-
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_STRING = 10000;
 const MAX_ORDER_MESSAGE = 5000;
@@ -23,9 +18,6 @@ function email(value) {
   return { ok: true, value: s };
 }
 
-/**
- * POST /api/auth/login
- */
 function validateLogin(body) {
   const errors = [];
   if (!body || typeof body !== "object") {
@@ -41,18 +33,9 @@ function validateLogin(body) {
     errors.push({ field: "password", message: "Password too long." });
   }
   if (errors.length) return { valid: false, errors };
-  return {
-    valid: true,
-    data: {
-      username: username.value,
-      password: String(body.password)
-    }
-  };
+  return { valid: true, data: { username: username.value, password: String(body.password) } };
 }
 
-/**
- * POST /api/order
- */
 function validateOrder(body) {
   const errors = [];
   if (!body || typeof body !== "object") {
@@ -68,9 +51,7 @@ function validateOrder(body) {
   if (!service.ok) errors.push({ field: "service", message: service.error });
   const message = string(body.message || "", 0, MAX_ORDER_MESSAGE);
   if (!message.ok) errors.push({ field: "message", message: message.error });
-
-  const hasAny = (name.value || emailVal.value || message.value);
-  if (!hasAny) {
+  if (!(name.value || emailVal.value || message.value)) {
     errors.push({ field: "message", message: "At least one of name, email or message is required." });
   }
   if (errors.length) return { valid: false, errors };
@@ -86,9 +67,6 @@ function validateOrder(body) {
   };
 }
 
-/**
- * PUT /api/admin/content
- */
 function validateContent(body) {
   const errors = [];
   if (!body || typeof body !== "object") {
@@ -100,38 +78,12 @@ function validateContent(body) {
   }
   const allowedKeys = ["siteName", "siteLogo", "home", "services", "about", "contacts", "projectCategories", "projects"];
   for (const key of Object.keys(content)) {
-    if (!allowedKeys.includes(key)) {
-      errors.push({ field: "content", message: `Unknown key: ${key}.` });
-    }
-  }
-  if (typeof content.siteName !== "string" && content.siteName != null) {
-    errors.push({ field: "content.siteName", message: "Must be string." });
-  }
-  if (content.home != null && (typeof content.home !== "object" || Array.isArray(content.home))) {
-    errors.push({ field: "content.home", message: "Must be object." });
-  }
-  if (content.services != null && !Array.isArray(content.services)) {
-    errors.push({ field: "content.services", message: "Must be array." });
-  }
-  if (content.about != null && (typeof content.about !== "object" || Array.isArray(content.about))) {
-    errors.push({ field: "content.about", message: "Must be object." });
-  }
-  if (content.contacts != null && (typeof content.contacts !== "object" || Array.isArray(content.contacts))) {
-    errors.push({ field: "content.contacts", message: "Must be object." });
-  }
-  if (content.projectCategories != null && !Array.isArray(content.projectCategories)) {
-    errors.push({ field: "content.projectCategories", message: "Must be array." });
-  }
-  if (content.projects != null && !Array.isArray(content.projects)) {
-    errors.push({ field: "content.projects", message: "Must be array." });
+    if (!allowedKeys.includes(key)) errors.push({ field: "content", message: `Unknown key: ${key}.` });
   }
   if (errors.length) return { valid: false, errors };
   return { valid: true, data: content };
 }
 
-/**
- * PUT /api/admin/credentials
- */
 function validateCredentials(body) {
   const errors = [];
   if (!body || typeof body !== "object") {
@@ -161,9 +113,6 @@ function validateCredentials(body) {
   };
 }
 
-/**
- * PUT /api/admin/telegram
- */
 function validateTelegram(body) {
   const errors = [];
   if (!body || typeof body !== "object") {
@@ -171,19 +120,12 @@ function validateTelegram(body) {
   }
   const chatId = body.chatId == null ? null : String(body.chatId).trim() || null;
   const botToken = body.botToken == null ? null : String(body.botToken).trim() || null;
-  if (chatId != null && chatId.length > 100) {
-    errors.push({ field: "chatId", message: "Chat ID too long." });
-  }
-  if (botToken != null && botToken.length > 200) {
-    errors.push({ field: "botToken", message: "Bot token too long." });
-  }
+  if (chatId != null && chatId.length > 100) errors.push({ field: "chatId", message: "Chat ID too long." });
+  if (botToken != null && botToken.length > 200) errors.push({ field: "botToken", message: "Bot token too long." });
   if (errors.length) return { valid: false, errors };
   return { valid: true, data: { chatId, botToken } };
 }
 
-/**
- * POST /api/admin/bootstrap
- */
 function validateBootstrap(body) {
   const errors = [];
   if (!body || typeof body !== "object") {
@@ -198,10 +140,7 @@ function validateBootstrap(body) {
     errors.push({ field: "password", message: "Password must be at least 6 characters." });
   }
   if (errors.length) return { valid: false, errors };
-  return {
-    valid: true,
-    data: { secret, username: username.value, password: String(password) }
-  };
+  return { valid: true, data: { secret, username: username.value, password: String(password) } };
 }
 
 module.exports = {

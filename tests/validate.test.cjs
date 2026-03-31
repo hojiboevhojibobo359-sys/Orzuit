@@ -5,7 +5,7 @@ const {
   validateLogin,
   validateContent,
   validateTelegram
-} = require("../api/_lib/validate");
+} = require("../server/validate");
 
 test("validateOrder accepts payload with name only", () => {
   const r = validateOrder({
