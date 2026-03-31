@@ -11,7 +11,7 @@ Professional multi-page website with admin panel, backend API, and PostgreSQL da
 
 ## Build & deploy
 
-- **Production build** (`vercel build` / Vercel dashboard): runs `npm run build` → checks required files, **validates every `vercel.json` rewrite against real `*.html` files**, runs `npm test` (see `scripts/build.cjs`).
+- **Production build** (`vercel build` / Vercel dashboard): runs `npm run build` → checks required files, auto-detects framework entrypoint, validates `vercel.json` route safety, runs `npm test` (see `scripts/build.cjs`).
 - **Local:** `npm test` or `npm run build`
 
 ### Почему был site-wide 404 на Vercel
@@ -35,7 +35,7 @@ If logs show `404: NOT_FOUND` with an id like `fra1::…` while **uploading the 
 
 1. **Vercel → Project → Settings → General → Root Directory** must be **empty** (repository root), not `public`.  
    `index.html` and all `*.html` pages live next to `api/` and `vercel.json`; if Root Directory is only `public`, the server never sees `index.html` → 404.
-2. **`vercel.json`** sets `cleanUrls` and explicit **`rewrites`** from `/services`, `/about`, … to the matching `*.html` files so routes resolve even if URL handling differs by region.
+2. **`vercel.json`** intentionally stays minimal (`cleanUrls`, `trailingSlash`) and avoids catch-all rewrites that can shadow `/` or `/api`.
 3. After changing settings, trigger a **new Production deploy**.
 
 ## Environment Variables

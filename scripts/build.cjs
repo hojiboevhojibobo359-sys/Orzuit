@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 /**
- * Vercel / CI build: validates assets, route map vs vercel.json, runs unit tests.
+ * Vercel / CI build:
+ * - validates critical files
+ * - auto-detects framework and verifies root entrypoint
+ * - validates vercel.json for dangerous route overrides
+ * - runs unit tests
  */
 const fs = require("fs");
 const path = require("path");
@@ -37,8 +41,60 @@ if (failed) {
   process.exit(1);
 }
 
-/** Validate vercel.json rewrites point to existing HTML and cover every public page. */
-function validateRoutes() {
+function detectFramework(pkg) {
+  const deps = {
+    ...(pkg.dependencies || {}),
+    ...(pkg.devDependencies || {})
+  };
+  if (deps.next) return "next";
+  if (deps.vite) return "vite";
+  return "static";
+}
+
+function existsAny(paths) {
+  return paths.some((p) => fs.existsSync(path.join(root, p)));
+}
+
+function validateEntrypoint() {
+  const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+  const framework = detectFramework(pkg);
+
+  if (framework === "next") {
+    const hasAppRouter = existsAny(["app/page.tsx", "app/page.ts", "app/page.jsx", "app/page.js"]);
+    const hasPagesRouter = existsAny([
+      "pages/index.tsx",
+      "pages/index.ts",
+      "pages/index.jsx",
+      "pages/index.js"
+    ]);
+    if (!hasAppRouter && !hasPagesRouter) {
+      console.error(
+        "[build] Next.js detected but neither app/page.* nor pages/index.* exists."
+      );
+      process.exit(1);
+    }
+    console.log("[build] Framework detected: Next.js");
+    return;
+  }
+
+  if (framework === "vite") {
+    if (!fs.existsSync(path.join(root, "index.html"))) {
+      console.error("[build] Vite detected but index.html is missing in project root.");
+      process.exit(1);
+    }
+    console.log("[build] Framework detected: Vite");
+    return;
+  }
+
+  if (!fs.existsSync(path.join(root, "index.html"))) {
+    console.error("[build] Static site detected but index.html is missing in project root.");
+    process.exit(1);
+  }
+  console.log("[build] Framework detected: static HTML");
+}
+
+/** Validate vercel.json does not override root or all routes dangerously. */
+function validateVercelConfig() {
   const vercelPath = path.join(root, "vercel.json");
   const raw = fs.readFileSync(vercelPath, "utf8");
   let vercel;
@@ -50,50 +106,34 @@ function validateRoutes() {
   }
 
   const rewrites = Array.isArray(vercel.rewrites) ? vercel.rewrites : [];
+  const redirects = Array.isArray(vercel.redirects) ? vercel.redirects : [];
+  const routes = Array.isArray(vercel.routes) ? vercel.routes : [];
 
-  for (const rule of rewrites) {
-    const dest = rule.destination;
-    if (!dest || typeof dest !== "string") continue;
+  const allRules = [...rewrites, ...redirects, ...routes];
+  for (const rule of allRules) {
     const source = typeof rule.source === "string" ? rule.source : "";
-    const isApiPassThrough = source === "/api/(.*)" && dest === "/api/$1";
-    const isStaticPassThrough = source === "/(.*\\..*)" && dest === "/$1";
-    if (!isApiPassThrough && !isStaticPassThrough) {
-      if (!dest.endsWith(".html")) {
-        console.error("[build] Rewrite destination must be a .html file:", rule);
-        process.exit(1);
-      }
-      const abs = path.join(root, dest.replace(/^\//, ""));
-      if (!fs.existsSync(abs)) {
-        console.error("[build] Missing rewrite target:", dest);
-        process.exit(1);
-      }
-    }
-  }
-
-  const htmlFiles = fs.readdirSync(root).filter((n) => n.endsWith(".html"));
-  const rewriteSources = new Set(
-    rewrites.map((r) => (typeof r.source === "string" ? r.source.replace(/\/$/, "") : ""))
-  );
-
-  for (const file of htmlFiles) {
-    const base = file.replace(/\.html$/i, "");
-    if (base.toLowerCase() === "index") continue;
-    const expectedSource = `/${base}`;
-    if (!rewriteSources.has(expectedSource)) {
-      console.error(
-        "[build] Page",
-        file,
-        "has no matching vercel.json rewrite with source",
-        JSON.stringify(expectedSource)
-      );
+    const src = source.trim();
+    if (src === "/" || src === "/(.*)" || src === "/:path*") {
+      console.error("[build] Dangerous top-level route override found in vercel.json:", rule);
       process.exit(1);
     }
   }
 
-  console.log("[build] Route map OK:", rewrites.length, "rewrites match", htmlFiles.length, "HTML files.");
+  for (const rule of rewrites) {
+    const source = typeof rule.source === "string" ? rule.source : "";
+    const dest = typeof rule.destination === "string" ? rule.destination : "";
+    if (!source || !dest) continue;
+    if (source === "/(.*)" && /^\/api/.test(dest)) {
+      console.error("[build] Dangerous catch-all rewrite to /api detected:", rule);
+      process.exit(1);
+    }
+  }
+
+  console.log("[build] vercel.json route safety OK.");
 }
 
-validateRoutes();
+validateEntrypoint();
+validateVercelConfig();
 
 const testsDir = path.join(root, "tests");
 if (!fs.existsSync(testsDir)) {
@@ -117,4 +157,4 @@ if (test.status !== 0) {
   process.exit(test.status ?? 1);
 }
 
-console.log("[build] OK — assets, routes, and tests passed.");
+console.log("[build] OK — assets, framework entrypoint, route safety, and tests passed.");
