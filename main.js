@@ -1,10 +1,22 @@
 function setActiveNav() {
-  const current = location.pathname.split("/").pop() || "index.html";
+  const path = (location.pathname || "/").replace(/\/+$/, "") || "/";
   document.querySelectorAll("[data-nav]").forEach((link) => {
-    const target = link.getAttribute("href");
-    if (target === current) {
-      link.classList.add("active");
+    const href = link.getAttribute("href");
+    if (!href) return;
+    const target = href.replace(/\/+$/, "") || "/";
+    let active = false;
+    if (target === "/") {
+      active = path === "/";
+    } else if (path === target) {
+      active = true;
+    } else if (target === "/services" && path === "/service") {
+      active = true;
+    } else if (target === "/projects" && path === "/project") {
+      active = true;
+    } else if (target === "/about" && path === "/founder") {
+      active = true;
     }
+    link.classList.toggle("active", active);
   });
 }
 
@@ -18,11 +30,23 @@ function setupMenuToggle() {
     toggle.setAttribute("aria-expanded", String(isOpen));
   });
 
+  function closeMenu() {
+    nav.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+  }
+
   nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      nav.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-    });
+    link.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!nav.classList.contains("is-open")) return;
+    if (toggle.contains(e.target) || nav.contains(e.target)) return;
+    closeMenu();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && nav.classList.contains("is-open")) closeMenu();
   });
 }
 
@@ -66,7 +90,7 @@ function renderHome(content) {
   if (intro) intro.textContent = content.home.intro;
   if (cta) {
     cta.textContent = content.home.ctaText;
-    cta.href = content.home.ctaLink || "services.html";
+    cta.href = content.home.ctaLink || "/services";
   }
 }
 
@@ -79,7 +103,7 @@ function renderServices(content) {
     const title = (service.title || "").trim() || "Leistung";
     const desc = service.description || "";
     const detailUrl = "/service?title=" + encodeURIComponent(title);
-    const orderUrl = "contacts.html?service=" + encodeURIComponent(title) + "#order-section";
+    const orderUrl = "/contacts?service=" + encodeURIComponent(title) + "#order-section";
     const item = document.createElement("article");
     item.className = "card service-card";
     item.innerHTML = `
@@ -107,6 +131,11 @@ function renderServiceDetailPage(content) {
       <a class="button" href="/services">Alle Leistungen</a>
     `;
     document.title = "Leistung nicht gefunden - " + (content.siteName || "OrzuIT");
+    setMetaDescription(
+      "Die angeforderte Leistung ist nicht verfügbar. Übersicht aller Dienstleistungen für Webentwicklung und Web-Apps – " +
+        (content.siteName || "OrzuIT") +
+        "."
+    );
     return;
   }
   const title = (service.title || "").trim() || "Leistung";
@@ -119,7 +148,14 @@ function renderServiceDetailPage(content) {
     <div class="service-detail-body">${details ? escapeHtml(details).replace(/\n/g, "<br>") : "<p class=\"muted\">Keine weiteren Details.</p>"}</div>
     <a class="button" href="/contacts?service=${encodeURIComponent(title)}#order-section">Jetzt anfragen</a>
   `;
-  document.title = title + " - " + (content.siteName || "OrzuIT");
+  document.title = title + " – Leistung | " + (content.siteName || "OrzuIT");
+  const metaDesc = [description, details].filter(Boolean).join(" ").trim() || title;
+  setMetaDescription(metaDesc + " · " + (content.siteName || "OrzuIT"));
+  try {
+    setCanonicalUrl(`${location.origin}/service?title=${encodeURIComponent(title)}`);
+  } catch {
+    // ignore
+  }
 }
 
 function renderProjectDetailPage(content) {
@@ -135,6 +171,9 @@ function renderProjectDetailPage(content) {
       <a class="button" href="/projects">Alle Projekte</a>
     `;
     document.title = "Projekt nicht gefunden - " + (content.siteName || "OrzuIT");
+    setMetaDescription(
+      "Referenzprojekt nicht gefunden. Weitere Webprojekte und Case Studies – " + (content.siteName || "OrzuIT") + "."
+    );
     return;
   }
   const name = (project.name || "").trim() || "Projekt";
@@ -160,7 +199,15 @@ function renderProjectDetailPage(content) {
     ${detailsHtml ? `<div class="project-detail-body">${detailsHtml}</div>` : ""}
     <div class="project-detail-actions">${orderBtn} ${openBtn}</div>
   `;
-  document.title = name + " - " + (content.siteName || "OrzuIT");
+  document.title = name + " – Referenzprojekt | " + (content.siteName || "OrzuIT");
+  setMetaDescription(
+    (description || "Referenzprojekt: " + name) + " · Webentwicklung für KMU · " + (content.siteName || "OrzuIT")
+  );
+  try {
+    setCanonicalUrl(`${location.origin}/project?name=${encodeURIComponent(name)}`);
+  } catch {
+    // ignore
+  }
 }
 
 function escapeHtml(s) {
@@ -169,6 +216,29 @@ function escapeHtml(s) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+function setMetaDescription(text) {
+  const content = typeof text === "string" ? text.trim() : "";
+  if (!content) return;
+  let el = document.querySelector('meta[name="description"]');
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("name", "description");
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content.length > 165 ? content.slice(0, 162).trimEnd() + "…" : content);
+}
+
+function setCanonicalUrl(absoluteUrl) {
+  if (typeof absoluteUrl !== "string" || !absoluteUrl) return;
+  let el = document.querySelector('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement("link");
+    el.setAttribute("rel", "canonical");
+    document.head.appendChild(el);
+  }
+  el.setAttribute("href", absoluteUrl);
 }
 
 function renderAbout(content) {
@@ -203,7 +273,7 @@ function renderAbout(content) {
   const linkedInLink = document.getElementById("founder-linkedin-link");
 
   if (founder && fullName && fullRole && fullBio && fullPhoto) {
-    fullName.textContent = founder.name || "Grunder";
+    fullName.textContent = founder.name || "Gründer";
     fullRole.textContent = founder.role || "";
     fullBio.textContent = founder.fullBio || founder.shortBio || "";
     if (founder.photoUrl) {
@@ -267,28 +337,35 @@ function renderContacts(content) {
 }
 
 function createContactValueMarkup(type, value) {
-  if (!value) return `<span>-</span>`;
+  if (!value) return "<span>-</span>";
+  const raw = String(value);
+  const safeText = escapeHtml(raw);
 
   if (type === "email") {
-    return `<a class="contact-link" href="mailto:${value}">${value}</a>`;
+    const addr = raw.trim();
+    return `<a class="contact-link" href="mailto:${encodeURIComponent(addr)}">${safeText}</a>`;
   }
 
   if (type === "phone") {
-    const phoneUri = value.replace(/\s+/g, "");
-    return `<a class="contact-link" href="tel:${phoneUri}">${value}</a>`;
+    const phoneUri = raw.replace(/[^\d+]/g, "");
+    return phoneUri
+      ? `<a class="contact-link" href="tel:${phoneUri}">${safeText}</a>`
+      : `<span>${safeText}</span>`;
   }
 
   if (type === "telegram") {
-    const username = value.replace(/^@/, "");
-    return `<a class="contact-link" href="https://t.me/${username}" target="_blank" rel="noreferrer">${value}</a>`;
+    let username = raw.replace(/^@/, "").trim().split(/[/?#]/)[0];
+    username = username.replace(/[^\w]/g, "");
+    if (!username) return `<span>${safeText}</span>`;
+    return `<a class="contact-link" href="https://t.me/${username}" target="_blank" rel="noopener noreferrer">${safeText}</a>`;
   }
 
   if (type === "address") {
-    const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(value)}`;
-    return `<a class="contact-link" href="${mapsLink}" target="_blank" rel="noreferrer">${value}</a>`;
+    const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(raw)}`;
+    return `<a class="contact-link" href="${escapeHtml(mapsLink)}" target="_blank" rel="noopener noreferrer">${safeText}</a>`;
   }
 
-  return `<span>${value}</span>`;
+  return `<span>${safeText}</span>`;
 }
 
 function applyProjectsFilter() {
@@ -449,12 +526,12 @@ function createProjectCard(project, isFeatured = false, categories = []) {
   orderLink.className = "button";
   orderLink.textContent = "Bestellen";
   orderLink.href = projectNumber
-    ? "contacts.html?project=" + encodeURIComponent(projectNumber) + "#order-section"
-    : "contacts.html#order-section";
+    ? "/contacts?project=" + encodeURIComponent(projectNumber) + "#order-section"
+    : "/contacts#order-section";
   actions.appendChild(orderLink);
   const link = document.createElement("a");
   link.className = "button secondary";
-  link.textContent = "Offnen";
+  link.textContent = "Öffnen";
   link.target = "_blank";
   link.rel = "noreferrer";
   if (linkUrl) {
@@ -506,6 +583,23 @@ function applyCommon(content) {
   document.querySelectorAll(".brand-logo").forEach((img) => {
     img.src = (content.siteLogo && content.siteLogo.trim()) || DEFAULT_LOGO_URL;
   });
+}
+
+function applyFounderPageSeo(content) {
+  const path = (location.pathname || "").replace(/\/+$/, "") || "/";
+  if (path !== "/founder") return;
+  const founder = content.about && content.about.founder;
+  if (!founder) return;
+  const name = (founder.name || "").trim() || "Gründerprofil";
+  document.title = name + " – Gründerprofil | " + (content.siteName || "OrzuIT");
+  const bio = (founder.fullBio || founder.shortBio || "").trim();
+  const lead = bio ? bio.slice(0, 140).trimEnd() + (bio.length > 140 ? "…" : "") + " " : "";
+  setMetaDescription(lead + "Ansprechpartner für Webprojekte – " + (content.siteName || "OrzuIT"));
+  try {
+    setCanonicalUrl(`${location.origin}/founder`);
+  } catch {
+    // ignore
+  }
 }
 
 function fillOrderServiceSelect(services) {
@@ -663,6 +757,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderServiceDetailPage(content);
   renderProjectDetailPage(content);
   renderAbout(content);
+  applyFounderPageSeo(content);
   renderContacts(content);
   renderProjects(content);
   renderFeaturedProject(content);

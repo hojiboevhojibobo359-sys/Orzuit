@@ -2,39 +2,41 @@ const defaultContent = {
   siteName: "OrzuIT",
   siteLogo: "https://i.imgur.com/qiFjcQR.jpeg",
   home: {
-    title: "Wir entwickeln Websites und Web-Apps für kleine Unternehmen",
-    subtitle: "Ein IT-Unternehmen mit Fokus auf Qualität, Tempo und klare Ergebnisse",
+    title: "Webentwicklung für KMU: performante Websites & skalierbare Web-Apps",
+    subtitle: "Websites und digitale Produkte mit klarem Fokus auf Performance, UX und planbare Release-Zyklen",
     intro:
-      "Wir helfen kleinen Unternehmen, moderne digitale Lösungen zu starten. Wir liefern hohe Qualität, durchdachtes UX und zuverlässige Begleitung in jeder Projektphase.",
-    ctaText: "Leistungen ansehen",
+      "Als Webentwicklungspartner für KMU liefern wir messbare Ergebnisse: schnelle Ladezeiten, suchmaschinenfreundliche Struktur, barriereorientierte Oberflächen und begleitende Beratung von der Konzeption bis zum Go-live.",
+    ctaText: "Leistungen & Ablauf ansehen",
     ctaLink: "/services"
   },
   services: [
     {
-      title: "Website-Entwicklung",
+      title: "Website-Entwicklung & Corporate Sites",
       description:
-        "Wir erstellen moderne Unternehmenswebsites und Landingpages mit responsivem Design und klarer Struktur für Ihre Kunden.",
-      details: ""
+        "Saubere, responsive Unternehmenswebsites und Landingpages mit semantischem HTML, optimierten Core Web Vitals und redaktionsfreundlicher Struktur.",
+      details:
+        "Wir planen Informationsarchitektur, setzen technisches SEO (Crawlability, Meta-Basics, strukturierte Daten wo sinnvoll) und binden CMS oder Headless-Content nach Bedarf ein. Fokus: klare User Journeys, barriereorientierte Gestaltung entlang gängiger WCAG-Checks, schnelle Time-to-Market und Hosting-Empfehlungen inklusive Monitoring."
     },
     {
-      title: "Web-App-Entwicklung",
+      title: "Web-App-Entwicklung & Prozessautomatisierung",
       description:
-        "Wir planen und entwickeln Web-Anwendungen zur Automatisierung von Prozessen, Anfragen, Verwaltung und Kundenkommunikation.",
-      details: ""
+        "Individuelle Web-Anwendungen für CRM-Light, interne Tools, Kundenportale und automatisierte Workflows – skalierbar und wartbar.",
+      details:
+        "Von der fachlichen Anforderungsaufnahme über API-Design bis zu rollenbasierten Oberflächen: Wir liefern Release-fähige Module, Logging, Basis-Härtung und optionale Anbindung an Zahlungs- oder Kommunikationsdienste. Technologiewahl erfolgt nach Budget, Team und Langzeit-Roadmap."
     }
   ],
   about: {
     text:
-      "OrzuIT ist ein Team, das digitale Lösungen für kleine Unternehmen entwickelt. Wir verbinden Design, Entwicklung und praxisnahe Umsetzung, damit Ihre Prozesse schneller und effizienter laufen.",
+      "OrzuIT ist ein schlank aufgestelltes Team für digitale Produktentwicklung. Wir kombinieren UX-Entscheidungen, moderne Frontend-Stacks und pragmatische Backend-Services, damit kleine Unternehmen ohne eigene IT-Abteilung zuverlässig digitalisieren können.",
     mission:
-      "Unser Ziel ist es, die Leistungsfähigkeit kleiner Unternehmen zu verbessern und die technologische Entwicklung im Unternehmertum aktiv zu unterstützen.",
+      "Wir möchten die Wettbewerbsfähigkeit von KMU stärken – durch transparente Projektsteuerung, dokumentierte Schnittstellen und begleitenden Support nach Launch.",
     founder: {
       name: "Gründername",
-      role: "Gründer & Leitung",
+      role: "Gründerin bzw. Gründer & Geschäftsführung",
       shortBio:
-        "Kurzbeschreibung des Gründers und seiner Rolle bei OrzuIT. Dieser Text erscheint im Über-uns-Bereich.",
+        "Kurzprofil mit Schwerpunkt auf Erfahrung in Webentwicklung, Produktvision und Zusammenarbeit mit kleinen Unternehmen. Wird auf der Über-uns-Seite angezeigt.",
       fullBio:
-        "Ausführlicher Text über den Gründer: Hintergrund, Erfahrung und Vision für OrzuIT und die Unterstützung kleiner Unternehmen.",
+        "Ausführliche Vita: Stationen in Entwicklung und Beratung, methodische Arbeitsweise, Referenzen (anonymisiert möglich) sowie die langfristige Ausrichtung von OrzuIT als Partner für nachhaltige Webprojekte.",
       photoUrl: "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg",
       linkedin: "",
       email: "",
@@ -46,17 +48,17 @@ const defaultContent = {
     phone: "+49 30 1234 5678",
     address: "Berlin, Deutschland",
     telegram: "@orzuit_team",
-    workingHours: "Mo-Fr, 09:00-18:00"
+    workingHours: "Mo–Fr, 09:00–18:00 Uhr (CET)"
   },
   projectCategories: [
-    { id: "web", name: "Websites" },
-    { id: "app", name: "Apps" }
+    { id: "web", name: "Websites & Landingpages" },
+    { id: "app", name: "Web-Apps & interne Tools" }
   ],
   projects: [
     {
-      name: "Meine Projekte",
+      name: "Referenzprojekt (Platzhalter)",
       description:
-        "Hier werden Ihre realisierten Projekte veroffentlicht: Websites und Web-Anwendungen fur kleine Unternehmen.",
+        "Hier stellen Sie realisierte Projekte vor: Zielsetzung, Technologie-Stack, messbare KPIs und Verlinkung zur Live-Umgebung – ideal für SEO und Vertrieb.",
       link: "#",
       number: "10001",
       categoryId: "web",

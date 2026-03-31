@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kontakt &amp; Anfrage – OrzuIT</title>
-    <meta name="description" content="Kontakt zu OrzuIT: E-Mail, Telefon, Adresse. Senden Sie eine Anfrage oder Bestellung über unser Formular." />
-    <meta name="keywords" content="Kontakt OrzuIT, Anfrage, Bestellung, E-Mail, Telefon" />
+    <title>Kontakt &amp; Projektanfrage – Webentwicklung OrzuIT</title>
+    <meta name="description" content="Kontaktieren Sie OrzuIT für Website- oder Web-App-Projekte: Kanäle, Arbeitszeiten und sicheres Anfrageformular. Antwort in der Regel innerhalb von drei Werktagen." />
+    <meta name="keywords" content="OrzuIT Kontakt, Webprojekt anfragen, Offerte Website, Berlin Webentwicklung" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Kontakt – OrzuIT" />
-    <meta property="og:description" content="Kontakt und Anfrageformular. Wir melden uns bei Ihnen." />
+    <meta property="og:title" content="Kontakt &amp; Anfrage | OrzuIT" />
+    <meta property="og:description" content="Projektanfrage für Webentwicklung – schneller Draht zu OrzuIT." />
     <meta property="og:url" content="https://orzuit.de/contacts" />
     <meta property="og:image" content="https://i.imgur.com/qiFjcQR.jpeg" />
     <meta property="og:site_name" content="OrzuIT" />
@@ -29,6 +30,10 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -58,7 +63,7 @@
     </header>
 
     <main class="container">
-      <h1 class="section-title">Kontakt</h1>
+      <h1 class="section-title">Kontakt &amp; Projektanfrage</h1>
       <section class="contacts-block" aria-labelledby="contacts-heading">
         <h2 id="contacts-heading" class="visually-hidden">Kontaktdaten</h2>
         <div class="list" id="contacts-list"></div>
@@ -66,7 +71,9 @@
 
       <section id="order-section" class="order-section card" aria-labelledby="order-heading">
         <h2 id="order-heading" class="section-title" style="font-size: 1.35rem; margin-bottom: 8px;">Anfrage oder Bestellung senden</h2>
-        <p class="muted" style="margin-bottom: 20px;">Füllen Sie das Formular aus – Sie erhalten die Bestätigung und wir melden uns bei Ihnen. Die Anfrage kommt in unserem Telegram an.</p>
+        <p class="muted" style="margin-bottom: 20px;">
+          Beschreiben Sie kurz Ihr Vorhaben – wir bestätigen den Eingang und melden uns in der Regel innerhalb von drei Werktagen. Bei aktiver Telegram-Anbindung erhalten Sie zeitnah eine Kopie im Admin-Workflow.
+        </p>
         <form id="order-form" class="order-form">
           <label>Leistung / Dienst <select id="order-service" name="service" aria-label="Leistung auswählen"><option value="">— Bitte wählen —</option></select></label>
           <label>Name <input id="order-name" name="name" type="text" placeholder="Ihr Name" /></label>
@@ -82,11 +89,20 @@
     </main>
 
     <footer class="site-footer">
-      <div class="container">&copy; <span data-site-name>OrzuIT</span>. Alle Rechte vorbehalten.</div>
+      <div class="container">
+        <nav class="footer-nav" aria-label="Interne Verlinkung">
+          <a href="/">Startseite</a>
+          <a href="/services">Leistungen</a>
+          <a href="/about">Über uns</a>
+          <a href="/contacts">Kontakt</a>
+          <a href="/projects">Referenzen</a>
+        </nav>
+        <div class="footer-copy">&copy; <span data-site-name>OrzuIT</span>. Alle Rechte vorbehalten.</div>
+      </div>
     </footer>
 
     <script src="/content.js" defer></script>
     <script src="/main.js" defer></script>
-    <script src="/analytics.js"></script>
+    <script src="/analytics.js" defer></script>
   </body>
 </html>

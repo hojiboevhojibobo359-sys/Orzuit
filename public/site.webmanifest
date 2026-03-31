@@ -1,7 +1,7 @@
 {
-  "name": "OrzuIT – Websites und Web-Apps für kleine Unternehmen",
+  "name": "OrzuIT – Webentwicklung für KMU",
   "short_name": "OrzuIT",
-  "description": "OrzuIT entwickelt Websites und Web-Anwendungen für kleine Unternehmen. Qualität, klares UX und zuverlässige Begleitung in jeder Projektphase.",
+  "description": "Websites, Web-Apps und SEO für kleine und mittlere Unternehmen – Performance, UX und Support von Konzept bis Go-live.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

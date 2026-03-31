@@ -57,8 +57,10 @@ module.exports = async function handler(req, res) {
 
   const data = validation.data;
 
+  let createdOrderId = null;
   try {
     const order = await Order.create(data);
+    createdOrderId = order.id;
     logger.info("Order created", { orderId: order.id, ip: getClientIp(req) });
   } catch (err) {
     logger.error("Order save failed", { message: err.message, ip: getClientIp(req) });
@@ -77,7 +79,7 @@ module.exports = async function handler(req, res) {
       });
       const respData = await response.json().catch(() => ({}));
       if (!response.ok || !respData.ok) {
-        logger.warn("Telegram send failed", { orderId: data.id });
+        logger.warn("Telegram send failed", { orderId: createdOrderId });
       }
     } catch (e) {
       logger.warn("Telegram request error", { message: e.message });

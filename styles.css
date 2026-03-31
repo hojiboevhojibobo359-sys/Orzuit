@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+/* Fonts loaded via <link> in HTML (avoids @import render delay). */
 
 :root {
   --bg: #060810;
@@ -1212,6 +1212,30 @@ main {
   font-size: 0.9375rem;
   padding: 28px 0;
   box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.2);
+}
+
+.site-footer .footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.site-footer .footer-nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.site-footer .footer-nav a:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
+.site-footer .footer-copy {
+  text-align: center;
 }
 
 /* Scroll-in reveal (JS adds .reveal-in) */

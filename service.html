@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leistung – Website &amp; Web-App | OrzuIT</title>
-    <meta name="description" content="Details zu unseren Leistungen: Website-Entwicklung und Web-App-Entwicklung für kleine Unternehmen." />
-    <meta name="keywords" content="Leistung, Website, Web-App, OrzuIT" />
+    <title>Leistungsdetails – Website &amp; Web-App Entwicklung | OrzuIT</title>
+    <meta name="description" content="Details zu unseren Webentwicklungs-Leistungen: Ablauf, Umfang und Anfrage – OrzuIT richtet Texte dynamisch an die gewählte Dienstleistung aus." />
+    <meta name="keywords" content="Leistungsbeschreibung, Webentwicklung Detail, Website Paket, Web-App Angebot" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Leistung – OrzuIT" />
     <meta property="og:description" content="Website- und Web-App-Leistungen von OrzuIT." />
@@ -29,6 +30,10 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -62,11 +67,20 @@
     </main>
 
     <footer class="site-footer">
-      <div class="container">&copy; <span data-site-name>OrzuIT</span>. Alle Rechte vorbehalten.</div>
+      <div class="container">
+        <nav class="footer-nav" aria-label="Interne Verlinkung">
+          <a href="/">Startseite</a>
+          <a href="/services">Leistungen</a>
+          <a href="/about">Über uns</a>
+          <a href="/contacts">Kontakt</a>
+          <a href="/projects">Referenzen</a>
+        </nav>
+        <div class="footer-copy">&copy; <span data-site-name>OrzuIT</span>. Alle Rechte vorbehalten.</div>
+      </div>
     </footer>
 
     <script src="/content.js" defer></script>
     <script src="/main.js" defer></script>
-    <script src="/analytics.js"></script>
+    <script src="/analytics.js" defer></script>
   </body>
 </html>

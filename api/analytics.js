@@ -26,8 +26,11 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 400, { error: "Invalid JSON." });
   }
 
-  const page = typeof body.page === "string" ? body.page.trim() || "/" : "/";
-  const referrer = typeof body.referrer === "string" ? body.referrer.trim() || null : null;
+  const MAX_LEN = 2048;
+  const pageRaw = typeof body.page === "string" ? body.page.trim() : "";
+  const page = (pageRaw || "/").slice(0, MAX_LEN);
+  const refRaw = typeof body.referrer === "string" ? body.referrer.trim() : "";
+  const referrer = refRaw ? refRaw.slice(0, MAX_LEN) : null;
 
   const ip = getClientIp(req);
   const country = getCountryFromIp(ip);
