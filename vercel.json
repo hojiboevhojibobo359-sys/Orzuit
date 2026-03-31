@@ -1,5 +1,25 @@
 {
   "buildCommand": "npm run build",
+  "installCommand": "npm install",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/contacts", "destination": "/contacts.html" },
+    { "source": "/founder", "destination": "/founder.html" },
+    { "source": "/projects", "destination": "/projects.html" },
+    { "source": "/project", "destination": "/project.html" },
+    { "source": "/service", "destination": "/service.html" },
+    { "source": "/services", "destination": "/services.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/admin-login", "destination": "/admin-login.html" },
+    { "source": "/admin-home", "destination": "/admin-home.html" },
+    { "source": "/admin-about", "destination": "/admin-about.html" },
+    { "source": "/admin-services", "destination": "/admin-services.html" },
+    { "source": "/admin-projects", "destination": "/admin-projects.html" },
+    { "source": "/admin-contacts", "destination": "/admin-contacts.html" },
+    { "source": "/admin-orders", "destination": "/admin-orders.html" },
+    { "source": "/admin-analytics", "destination": "/admin-analytics.html" },
+    { "source": "/admin-telegram", "destination": "/admin-telegram.html" }
+  ]
 }

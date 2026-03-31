@@ -25,6 +25,13 @@ Analytics are custom: `analytics.js` → `POST /api/analytics` (not the Next.js 
 
 If logs show `404: NOT_FOUND` with an id like `fra1::…` while **uploading the build cache**, that is a **Vercel platform/storage glitch**, not an application bug. The deployment can still succeed; redeploy or contact Vercel support if it repeats.
 
+### Site returns 404 on `/` or `/about` etc.
+
+1. **Vercel → Project → Settings → General → Root Directory** must be **empty** (repository root), not `public`.  
+   `index.html` and all `*.html` pages live next to `api/` and `vercel.json`; if Root Directory is only `public`, the server never sees `index.html` → 404.
+2. **`vercel.json`** sets `cleanUrls` and explicit **`rewrites`** from `/services`, `/about`, … to the matching `*.html` files so routes resolve even if URL handling differs by region.
+3. After changing settings, trigger a **new Production deploy**.
+
 ## Environment Variables
 
 Set these variables in Vercel project settings:
