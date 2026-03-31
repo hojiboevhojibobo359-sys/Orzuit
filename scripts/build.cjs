@@ -54,14 +54,19 @@ function validateRoutes() {
   for (const rule of rewrites) {
     const dest = rule.destination;
     if (!dest || typeof dest !== "string") continue;
-    if (!dest.endsWith(".html")) {
-      console.error("[build] Rewrite destination must be a .html file:", rule);
-      process.exit(1);
-    }
-    const abs = path.join(root, dest.replace(/^\//, ""));
-    if (!fs.existsSync(abs)) {
-      console.error("[build] Missing rewrite target:", dest);
-      process.exit(1);
+    const source = typeof rule.source === "string" ? rule.source : "";
+    const isApiPassThrough = source === "/api/(.*)" && dest === "/api/$1";
+    const isStaticPassThrough = source === "/(.*\\..*)" && dest === "/$1";
+    if (!isApiPassThrough && !isStaticPassThrough) {
+      if (!dest.endsWith(".html")) {
+        console.error("[build] Rewrite destination must be a .html file:", rule);
+        process.exit(1);
+      }
+      const abs = path.join(root, dest.replace(/^\//, ""));
+      if (!fs.existsSync(abs)) {
+        console.error("[build] Missing rewrite target:", dest);
+        process.exit(1);
+      }
     }
   }
 

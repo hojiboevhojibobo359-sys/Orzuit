@@ -4,7 +4,29 @@
   "installCommand": "npm install",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/about/", "destination": "/about", "permanent": true },
+    { "source": "/contacts/", "destination": "/contacts", "permanent": true },
+    { "source": "/founder/", "destination": "/founder", "permanent": true },
+    { "source": "/projects/", "destination": "/projects", "permanent": true },
+    { "source": "/project/", "destination": "/project", "permanent": true },
+    { "source": "/service/", "destination": "/service", "permanent": true },
+    { "source": "/services/", "destination": "/services", "permanent": true },
+    { "source": "/admin/", "destination": "/admin", "permanent": true },
+    { "source": "/admin-login/", "destination": "/admin-login", "permanent": true },
+    { "source": "/admin-home/", "destination": "/admin-home", "permanent": true },
+    { "source": "/admin-about/", "destination": "/admin-about", "permanent": true },
+    { "source": "/admin-services/", "destination": "/admin-services", "permanent": true },
+    { "source": "/admin-projects/", "destination": "/admin-projects", "permanent": true },
+    { "source": "/admin-contacts/", "destination": "/admin-contacts", "permanent": true },
+    { "source": "/admin-orders/", "destination": "/admin-orders", "permanent": true },
+    { "source": "/admin-analytics/", "destination": "/admin-analytics", "permanent": true },
+    { "source": "/admin-telegram/", "destination": "/admin-telegram", "permanent": true }
+  ],
   "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*\\..*)", "destination": "/$1" },
     { "source": "/about", "destination": "/about.html" },
     { "source": "/contacts", "destination": "/contacts.html" },
     { "source": "/founder", "destination": "/founder.html" },
@@ -21,6 +43,7 @@
     { "source": "/admin-contacts", "destination": "/admin-contacts.html" },
     { "source": "/admin-orders", "destination": "/admin-orders.html" },
     { "source": "/admin-analytics", "destination": "/admin-analytics.html" },
-    { "source": "/admin-telegram", "destination": "/admin-telegram.html" }
+    { "source": "/admin-telegram", "destination": "/admin-telegram.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
