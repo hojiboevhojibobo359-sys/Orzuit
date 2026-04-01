@@ -1,8 +1,48 @@
+const fs = require("fs");
+const path = require("path");
 const { Pool } = require("pg");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const geoip = require("geoip-lite");
 const { validateLogin, validateOrder, validateContent, validateCredentials, validateTelegram, validateBootstrap } = require("../server/validate");
+
+const MIME = {
+  ".html": "text/html; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".js": "application/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".svg": "image/svg+xml",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".ico": "image/x-icon",
+  ".txt": "text/plain; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
+  ".webmanifest": "application/manifest+json; charset=utf-8"
+};
+
+const pageMap = {
+  "": "index.html",
+  "/": "index.html",
+  "/about": "about.html",
+  "/services": "services.html",
+  "/service": "service.html",
+  "/projects": "projects.html",
+  "/project": "project.html",
+  "/contacts": "contacts.html",
+  "/founder": "founder.html",
+  "/admin": "admin.html",
+  "/admin-login": "admin-login.html",
+  "/admin-home": "admin-home.html",
+  "/admin-services": "admin-services.html",
+  "/admin-about": "admin-about.html",
+  "/admin-projects": "admin-projects.html",
+  "/admin-contacts": "admin-contacts.html",
+  "/admin-orders": "admin-orders.html",
+  "/admin-analytics": "admin-analytics.html",
+  "/admin-telegram": "admin-telegram.html"
+};
 
 const DEFAULT_CONTENT = {
   siteName: "OrzuIT",
@@ -174,9 +214,48 @@ function routeFromReq(req) {
   return p.replace(/^\/+/, "");
 }
 
+function safeResolve(base, rel) {
+  const abs = path.resolve(base, rel);
+  return abs.startsWith(path.resolve(base)) ? abs : null;
+}
+
+function serveFile(res, absFile) {
+  const ext = path.extname(absFile).toLowerCase();
+  const contentType = MIME[ext] || "application/octet-stream";
+  const file = fs.readFileSync(absFile);
+  res.setHeader("Content-Type", contentType);
+  res.setHeader("Cache-Control", ext === ".html" ? "public, s-maxage=300" : "public, s-maxage=3600");
+  res.status(200).send(file);
+}
+
 async function handle(req, res) {
   await initDb();
   const route = routeFromReq(req);
+
+  if (route === "page" && (req.method === "GET" || req.method === "HEAD")) {
+    const root = process.cwd();
+    const t = typeof req.query.target === "string" ? req.query.target : "/";
+    const raw = decodeURIComponent(t).split("?")[0].split("#")[0];
+    const normalized = (raw || "/").replace(/\/+$/, "") || "/";
+
+    const html = pageMap[normalized];
+    if (html) {
+      const abs = safeResolve(root, html);
+      if (abs && fs.existsSync(abs) && fs.statSync(abs).isFile()) return serveFile(res, abs);
+    }
+
+    if (/\.[a-z0-9]+$/i.test(normalized)) {
+      const rel = normalized.replace(/^\//, "");
+      const absRoot = safeResolve(root, rel);
+      if (absRoot && fs.existsSync(absRoot) && fs.statSync(absRoot).isFile()) return serveFile(res, absRoot);
+      const absPublic = safeResolve(path.join(root, "public"), rel);
+      if (absPublic && fs.existsSync(absPublic) && fs.statSync(absPublic).isFile()) return serveFile(res, absPublic);
+    }
+
+    const fallback = safeResolve(root, "index.html");
+    if (fallback && fs.existsSync(fallback)) return serveFile(res, fallback);
+    return res.status(404).send("Not found");
+  }
 
   if (route === "content" && req.method === "GET") {
     const r = await query("SELECT data FROM site_content WHERE id = 1");

@@ -20,7 +20,6 @@ const requiredFiles = [
   "styles.css",
   "content.js",
   "api/index.js",
-  "api/page.js",
   "server/validate.js",
   "public/site.webmanifest",
   "public/logo.svg",
@@ -123,7 +122,9 @@ function validateVercelConfig() {
     const source = typeof rule.source === "string" ? rule.source : "";
     const dest = typeof rule.destination === "string" ? rule.destination : "";
     if (!source || !dest) continue;
-    const isSafeFallback = source === "/(.*)" && /^\/api\/page(\?|$)/.test(dest);
+    const isSafeFallback =
+      source === "/(.*)" &&
+      (/^\/api\/page(\?|$)/.test(dest) || /^\/api\?path=page(&|$)/.test(dest));
     if (source === "/(.*)" && /^\/api/.test(dest) && !isSafeFallback) {
       console.error("[build] Dangerous catch-all rewrite to /api detected:", rule);
       process.exit(1);
