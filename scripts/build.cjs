@@ -19,7 +19,7 @@ const requiredFiles = [
   "main.js",
   "styles.css",
   "content.js",
-  "api/index.js",
+  "api/[...path].js",
   "server/validate.js",
   "public/site.webmanifest",
   "public/logo.svg",

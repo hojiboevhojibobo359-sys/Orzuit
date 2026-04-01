@@ -3,9 +3,5 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api?path=$1" },
-    { "source": "/(.*)", "destination": "/api?path=page&target=/$1" }
-  ]
+  "trailingSlash": false
 }
